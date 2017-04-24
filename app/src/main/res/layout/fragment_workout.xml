@@ -2,7 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
+    android:id="@+id/fragment_workout"
+    android:background="#000000"
     tools:context="com.allie.pre90secs.WorkoutFragment">
 
   <LinearLayout
@@ -15,21 +16,37 @@
           android:id="@+id/personImageView"
           android:layout_width="match_parent"
           android:layout_height="0dp"
-          android:layout_weight="33.3">
+          android:layout_weight="42.5">
       </ImageView>
 
       <ImageView
           android:id="@+id/imageView"
           android:layout_width="match_parent"
           android:layout_height="0dp"
-          android:layout_weight="33.3">
+          android:layout_weight="42.5">
       </ImageView>
 
       <Button
+          android:id="@+id/startButton"
           android:layout_width="match_parent"
           android:layout_height="0dp"
-          android:layout_weight="33.3"
+          android:layout_weight="15"
+          android:background="@color/colorAccent"
+          android:textStyle="bold"
+          android:textSize="40sp"
+          android:visibility="visible"
           android:text="START WORKOUT">
+      </Button>
+      <Button
+          android:id="@+id/workoutTimer"
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="15"
+          android:background="@color/colorAccent"
+          android:textStyle="bold"
+          android:textSize="40sp"
+          android:visibility="gone"
+          android:text="TIMER">
       </Button>
   </LinearLayout>
 

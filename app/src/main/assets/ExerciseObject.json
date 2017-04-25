@@ -1,0 +1,24 @@
+[
+  {
+    "title": "Simple Wall Sit",
+    "photo": "wall_sit.png",
+    "instructions": [
+    "Find an open wall area, large enough for your body to lean against",
+    "Place your back against the wall",
+    "Walk you feet away from the wall, keeping your back against the wall",
+    "Continue lowering until your legs are at a 10 degree angle",
+    "Hold"
+    ]
+  },
+
+  {
+  "title": "Knee Highs",
+  "photo": "knee_high.jpg",
+  "instructions": [
+    "Find an open area in the room without any items on the floor around you",
+    "Make sure the ceiling is high enough to jump without hitting",
+    "Jump, tucking each knee to your chest",
+    "Repeat"
+    ]
+  }
+]

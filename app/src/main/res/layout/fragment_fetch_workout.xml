@@ -8,6 +8,7 @@
         android:id="@+id/fetchWorkoutButton"
         android:background="@color/colorAccent"
         android:textColor="@color/colorPrimaryDark"
+        android:layout_gravity="center"
         android:textStyle="bold"
         android:textSize="40dp"
         android:layout_width="300dp"

@@ -1,24 +1,67 @@
 [
   {
     "title": "Simple Wall Sit",
-    "photo": "wall_sit.png",
+    "image": "wall_sit",
     "instructions": [
-    "Find an open wall area, large enough for your body to lean against",
-    "Place your back against the wall",
-    "Walk you feet away from the wall, keeping your back against the wall",
-    "Continue lowering until your legs are at a 10 degree angle",
-    "Hold"
+      "Find an open wall area, large enough for your body to lean against",
+      "Place your back against the wall",
+      "Walk you feet away from the wall, keeping your back against the wall",
+      "Continue lowering until your legs are at a 10 degree angle",
+      "Hold"
     ]
   },
-
   {
-  "title": "Knee Highs",
-  "photo": "knee_high.jpg",
-  "instructions": [
-    "Find an open area in the room without any items on the floor around you",
-    "Make sure the ceiling is high enough to jump without hitting",
-    "Jump, tucking each knee to your chest",
-    "Repeat"
+    "title": "Knee Highs",
+    "image": "knee_high",
+    "instructions": [
+      "Find an open area in the room without any items on the floor around you",
+      "Make sure the ceiling is high enough to jump without hitting",
+      "Jump, tucking each knee, alternating, to your chest",
+      "Repeat"
+    ]
+  },
+  {
+    "title": "Bicycle Crunches",
+    "image": "bicycle_crunch",
+    "instructions": [
+      "Find an open area in the room with enough room to laydown",
+      "Lay on your back and lift your legs to 90 degrees",
+      "Place hands lightly behind your head",
+      "Contracting your abs, lift your shoulder blades off the floor",
+      "Twist pull your opposite knee to opposit elbow",
+      "Repeat"
+    ]
+  },
+  {
+    "title": "Swimmer",
+    "image": "swimmer",
+    "instructions": [
+      "Find an open area in the room with enough room to laydown",
+      "Lay on your stomach, arms stretched out in front of you",
+      "Contracting your stomach and glutes, lift everything off the floor except from your rib cage to hip bones",
+      "In a fluttering action, pump opposite arm and opposite leg",
+      "Hold and Repeat"
+    ]
+  },
+  {
+    "title": "Tuck Jumps",
+    "image": "tuck_jump",
+    "instructions": [
+      "Find an open area in the room without any items on the floor around you",
+      "Make sure the ceiling is high enough to jump without hitting",
+      "Jump, tucking both knees to your chest",
+      "Repeat"
+    ]
+  },
+  {
+    "title": "Shoulder Bridge",
+    "image": "shoulder_bridge",
+    "instructions": [
+      "Find an open area in the room with enough room to laydown",
+      "Lay on your back and place feet flat on the floor",
+      "Contracting with your abs and bressing down with your feet lift your hips into the air",
+      "Control lowering of hips back the the ground",
+      "Repeat"
     ]
   }
 ]

@@ -10,12 +10,12 @@ public class ExerciseItem {
     @SerializedName("title")
     @Expose
     private String title;
-    @SerializedName("photo")
+    @SerializedName("image")
     @Expose
-    private String photo;
+    private String image;
     @SerializedName("instructions")
     @Expose
-    private List<String> instructions;
+    private List<String> instructions = null;
 
     public String getTitle() {
         return title;
@@ -25,12 +25,12 @@ public class ExerciseItem {
         this.title = title;
     }
 
-    public String getPhoto() {
-        return photo;
+    public String getImage() {
+        return image;
     }
 
-    public void setPhoto(String photo) {
-        this.photo = photo;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public List<String> getInstructions() {
@@ -40,4 +40,5 @@ public class ExerciseItem {
     public void setInstructions(List<String> instructions) {
         this.instructions = instructions;
     }
+
 }

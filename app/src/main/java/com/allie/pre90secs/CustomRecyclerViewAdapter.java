@@ -8,22 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.allie.pre90secs.Data.ExerciseItem;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomViewHolder> {
 
-//    private List mList;
-    private List<ExerciseItem> mList;
-    private Array instructionList;
+    private List mInstructionList;
     private Context mContext;
 
     public CustomRecyclerViewAdapter(List list, Context context) {
-        this.mList = list;
+        this.mInstructionList = list;
         this.mContext = context;
     }
 
@@ -40,18 +33,15 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
 
-        int currentIndex = 0;
-
-        List instructionList = mList.get(position).getInstructions();
+        String exerciseItem = mInstructionList.get(position).toString();
         TextView instructionText = holder.instructionText;
 
-        instructionText.setText(instructionList.get(currentIndex).toString());
-        currentIndex++;
+        instructionText.setText(exerciseItem);
     }
 
     @Override
     public int getItemCount() {
-        return mList.size();
+        return mInstructionList.size();
     }
 
     public class CustomViewHolder extends RecyclerView.ViewHolder {

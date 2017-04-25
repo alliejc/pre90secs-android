@@ -46,14 +46,14 @@ public class FetchWorkoutFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                onButtonPressed(true);
+                fetchWorkout();
             }
         });
     }
 
-    public void onButtonPressed(boolean loadWorkout) {
+    public void fetchWorkout() {
         if (mListener != null) {
-            mListener.onFetchWorkoutFragmentInteraction(loadWorkout);
+            mListener.onFetchWorkoutFragmentInteraction();
         }
     }
 
@@ -75,6 +75,6 @@ public class FetchWorkoutFragment extends Fragment {
     }
 
     public interface OnFetchWorkoutFragmentInteractionListener {
-        void onFetchWorkoutFragmentInteraction(boolean loadWorkout);
+        void onFetchWorkoutFragmentInteraction();
     }
 }

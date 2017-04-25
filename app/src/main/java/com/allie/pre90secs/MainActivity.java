@@ -12,42 +12,56 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        mFragmentManager = getSupportFragmentManager();
-        showInitialScreen(false);
+        if (savedInstanceState == null) {
+            setContentView(R.layout.activity_main);
+
+            mFragmentManager = getSupportFragmentManager();
+            showInitialScreen();
+        }
+
     }
 
-    private void manageFragmentStack(boolean loadWorkout) {
-
-            if (loadWorkout) {
+//    private void manageFragmentStack(boolean loadWorkout) {
+//
+//            if (loadWorkout) {
 //                mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                WorkoutFragment workoutFragment = WorkoutFragment.newInstance();
-                mFragmentManager.beginTransaction().add(R.id.main_framelayout, workoutFragment, "fragment").addToBackStack(null)
-                        .addToBackStack(null)
-                        .commit();
-            } else {
+//                WorkoutFragment workoutFragment = WorkoutFragment.newInstance();
+//                mFragmentManager.beginTransaction().add(R.id.main_framelayout, workoutFragment, "fragment").addToBackStack(null)
+//                        .addToBackStack(null)
+//                        .commit();
+//            } else {
 //                mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                FetchWorkoutFragment fetchWorkoutFragment = FetchWorkoutFragment.newInstance();
-                mFragmentManager.beginTransaction().add(R.id.main_framelayout, fetchWorkoutFragment, "fragment").addToBackStack(null)
-                        .addToBackStack(null)
-                        .commit();
-            }
-    }
+//                FetchWorkoutFragment fetchWorkoutFragment = FetchWorkoutFragment.newInstance();
+//                mFragmentManager.beginTransaction().add(R.id.main_framelayout, fetchWorkoutFragment, "fragment").addToBackStack(null)
+//                        .addToBackStack(null)
+//                        .commit();
+//            }
+//    }
 
-    private void showInitialScreen(boolean loadWorkout) {
-        manageFragmentStack(loadWorkout);
+    private void showInitialScreen() {
+        FetchWorkoutFragment fetchWorkoutFragment = FetchWorkoutFragment.newInstance();
+        mFragmentManager.beginTransaction().add(R.id.main_framelayout, fetchWorkoutFragment, "fragment").addToBackStack(null)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
-    public void onWorkoutFragmentInteraction(boolean loadWorkout) {
-
-        manageFragmentStack(loadWorkout);
+    public void onWorkoutFragmentInteraction() {
+//        mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        FetchWorkoutFragment fetchWorkoutFragment = FetchWorkoutFragment.newInstance();
+        mFragmentManager.beginTransaction().add(R.id.main_framelayout, fetchWorkoutFragment, "fragment").addToBackStack(null)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
-    public void onFetchWorkoutFragmentInteraction(boolean loadWorkout) {
+    public void onFetchWorkoutFragmentInteraction() {
 
-        manageFragmentStack(loadWorkout);
+//        mFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        WorkoutFragment workoutFragment = WorkoutFragment.newInstance();
+        mFragmentManager.beginTransaction().add(R.id.main_framelayout, workoutFragment, "fragment").addToBackStack(null)
+                .addToBackStack(null)
+                .commit();
     }
 }

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragment_workout"
-    android:background="#ffffff"
+    android:background="@color/colorPrimaryDark"
     tools:context="com.allie.pre90secs.WorkoutFragment">
 
   <LinearLayout
@@ -22,18 +22,22 @@
           android:id="@+id/title"
           android:layout_width="match_parent"
           android:layout_height="0dp"
-          android:layout_weight="8"
-          android:textSize="20sp"
+          android:layout_weight="10"
+          android:textColor="@color/white"
+          android:textSize="30sp"
           android:textStyle="bold"
-          android:textAlignment="center"/>
+          android:textAlignment="center" />
 
       <android.support.v7.widget.RecyclerView
           android:id="@+id/recycler_view"
           android:layout_width="match_parent"
           android:layout_height="0dp"
+          android:paddingLeft="20dp"
+          android:paddingRight="20dp"
           android:fadeScrollbars="true"
           android:scrollbars="vertical"
-          android:layout_weight="42">
+          android:layout_weight="40"
+          android:background="@color/colorPrimaryDark">
       </android.support.v7.widget.RecyclerView>
 
       <Button
@@ -44,6 +48,7 @@
           android:background="@color/colorAccent"
           android:textStyle="bold"
           android:textSize="40sp"
+          android:textColor="@color/colorPrimaryDark"
           android:visibility="visible"
           android:text="START WORKOUT">
       </Button>
@@ -55,6 +60,7 @@
           android:background="@color/colorAccent"
           android:textStyle="bold"
           android:textSize="40sp"
+          android:textColor="@color/colorPrimaryDark"
           android:visibility="gone"
           android:text="TIMER">
       </Button>

@@ -1,7 +1,11 @@
 package com.allie.pre90secs;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -19,37 +23,26 @@ import android.widget.TextView;
 
 import com.allie.pre90secs.Data.ExerciseItem;
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static com.allie.pre90secs.R.attr.title;
+import java.util.Random;
 
 public class WorkoutFragment extends Fragment {
 
-    private ImageView imageView;
-    private TextView mTitle;
+    private ImageView mImageView;
+    private TextView mTitleView;
     private Button startButton;
     private Button workoutTimer;
     private Handler mTimerHandler = new Handler();
     private int mTotalTime = 0;
     private RecyclerView mRecyclerView;
     private CustomRecyclerViewAdapter mAdapter;
-    private List mList;
+    private List mInstructionList;
     private LinearLayoutManager mLayoutManager;
+    private Boolean mBeepPlayed = false;
 
     private OnWorkoutFragmentInteractionListener mListener;
 
@@ -73,9 +66,9 @@ public class WorkoutFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_workout, container, false);
 
-        mTitle = (TextView) v.findViewById(R.id.title);
-        imageView = (ImageView) v.findViewById(R.id.workoutImage);
-        imageView.setImageResource(R.drawable.knee_high);
+        mTitleView = (TextView) v.findViewById(R.id.title);
+        mImageView = (ImageView) v.findViewById(R.id.workoutImage);
+        mImageView.setImageResource(R.drawable.knee_high);
         startButton = (Button) v.findViewById(R.id.startButton);
         workoutTimer = (Button) v.findViewById(R.id.workoutTimer);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
@@ -87,7 +80,7 @@ public class WorkoutFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupRecyclerView();
+        setupUi();
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,25 +95,34 @@ public class WorkoutFragment extends Fragment {
         RecyclerView.ItemDecoration dividerItemDecoration = new RecyclerDivider(dividerDrawable);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        mList = loadJSONFromAsset();
-
-//        mTitle.setText("KNEE HIGH");
-//        mList.add(0, "Find an open area in the room without any items on the floor around you");
-//        mList.add(1, "Make sure the ceiling is high enough to jump without hitting");
-//        mList.add(2, "Jump, tucking each knee to your chest");
-//        mList.add(3, "Repeat");
-
         mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new CustomRecyclerViewAdapter(mList, getContext());
+        mAdapter = new CustomRecyclerViewAdapter(mInstructionList, getContext());
 
         mRecyclerView.setAdapter(mAdapter);
 
     }
 
-    public List loadJSONFromAsset() {
+    private void setupUi() {
+
+        ExerciseItem itemToDisplay = loadJSONFromAsset();
+        mTitleView.setText(itemToDisplay.getTitle());
+        mInstructionList = itemToDisplay.getInstructions();
+
+        String image = itemToDisplay.getImage();
+        Resources resources = getContext().getResources();
+
+        int resourceId = resources.getIdentifier(image, "drawable", getContext().getPackageName());
+        Drawable drawable = resources.getDrawable(resourceId);
+
+        mImageView.setImageDrawable(drawable);
+        setupRecyclerView();
+
+    }
+
+    public ExerciseItem loadJSONFromAsset() {
         String json = null;
         try {
             InputStream is = getActivity().getAssets().open("ExerciseObject.json");
@@ -136,10 +138,20 @@ public class WorkoutFragment extends Fragment {
         Gson gson = new Gson();
         Type type = new TypeToken<List<ExerciseItem>>(){}.getType();
         List<ExerciseItem> exerciseItemList = gson.fromJson(json, type);
-        for (ExerciseItem exerciseItem : exerciseItemList){
-            Log.i("Workout Details", exerciseItem.getTitle() + "-" + exerciseItem.getPhoto());
+
+        for (ExerciseItem exerciseItem : exerciseItemList) {
+            Log.i("Workout Details", exerciseItem.getTitle() + exerciseItem.getImage());
         }
-        return  exerciseItemList;
+
+        return  getRandomItem(exerciseItemList);
+    }
+
+    private ExerciseItem getRandomItem(List<ExerciseItem> exerciseItemList) {
+        int max = exerciseItemList.size();
+        Random r = new Random();
+        int random = r.nextInt(max);
+
+        return exerciseItemList.get(random);
     }
 
     private void updateTimerUi() {
@@ -151,7 +163,8 @@ public class WorkoutFragment extends Fragment {
         mSeconds = ((mTotalTime / 1000) % 60);
         mMinutes = ((mTotalTime / 1000) / 60);
 
-        if(mTotalTime > 90000){
+        if(mTotalTime > 90000 && !mBeepPlayed){
+            playBeep();
            stopTimer();
         }
 
@@ -167,6 +180,26 @@ public class WorkoutFragment extends Fragment {
         }
     };
 
+    private void playBeep() {
+
+        final MediaPlayer mediaPlayer = MediaPlayer.create(getContext(), R.raw.beep);
+
+        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mp) {
+                mediaPlayer.start();
+            }
+        });
+
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mBeepPlayed = true;
+                mediaPlayer.release();
+            }
+        });
+    }
+
     private void resetTimerHandler() {
         mTimerHandler.removeCallbacks(timerRunnable);
     }
@@ -175,6 +208,7 @@ public class WorkoutFragment extends Fragment {
         workoutTimer.setVisibility(View.VISIBLE);
         startButton.setVisibility(View.GONE);
 
+        mBeepPlayed = false;
         updateTimerUi();
     }
 
@@ -184,12 +218,12 @@ public class WorkoutFragment extends Fragment {
 
         resetTimerHandler();
 
-        backToFetchScreen(false);
+        backToFetchScreen();
     }
 
-    public void backToFetchScreen(boolean loadWorkout) {
+    public void backToFetchScreen() {
         if (mListener != null) {
-            mListener.onWorkoutFragmentInteraction(loadWorkout);
+            mListener.onWorkoutFragmentInteraction();
         }
     }
 
@@ -212,6 +246,6 @@ public class WorkoutFragment extends Fragment {
     }
 
     public interface OnWorkoutFragmentInteractionListener {
-        void onWorkoutFragmentInteraction(boolean loadWorkout);
+        void onWorkoutFragmentInteraction();
     }
 }

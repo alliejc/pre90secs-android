@@ -1,7 +1,147 @@
 [
   {
+    "title": "Sumo Squat",
+    "image": "sumo",
+    "body_region": [
+     "lower"
+    ],
+    "difficulty": [
+      "easy",
+      "medium"
+    ],
+    "instructions": [
+      "Find an open area in the room without any items on the floor around you",
+      "Take a very wide stance and cross your arms in front of you",
+      "Begin the squat by sitting back, and focusing on keeping your chest up and knees pushed out",
+      "Repeat"
+    ]
+  },
+  {
+    "title": "Side Plank",
+    "image": "side_plank",
+    "body_region": [
+      "core"
+    ],
+    "difficulty": [
+      "easy",
+      "medium",
+      "hard"
+    ],
+    "instructions": [
+      "Find an open area in the room with enough room to lay down",
+      "Roll to one side",
+      "Keeping your core tight, by pulling your belly button to your spine",
+      "Raise your hips off of the ground so you are balnacing on 1 foot and 1 hand",
+      "Hold for half time",
+      "Switch side and hold for the last half"
+    ]
+  },
+  {
+    "title": "Basic Plank",
+    "image": "plank_basic",
+    "body_region": [
+      "core"
+    ],
+    "difficulty": [
+      "easy",
+      "medium"
+    ],
+    "instructions": [
+      "Find an open area in the room with enough room to lay down",
+      "Starting on your hands and knees, stretch your feet back behind you and lower to your elbows",
+      "Keeping your core tight, by pulling your belly button to your spine",
+      "Hold"
+    ]
+  },
+  {
+    "title": "Mountain Climbers",
+    "image": "mountain_climbers",
+    "body_region": [
+      "core",
+      "cardio"
+    ],
+    "difficulty": [
+      "medium",
+      "hard"
+    ],
+    "instructions": [
+      "Find an open area in the room with enough room to do a pushup",
+      "Starting in a pushup/plank position",
+      "Keeping your core tight, bring the left knee forward directly under the chest",
+      "Jump and switch legs, the opposite leg should now be tucked under your chest",
+      "Repeat"
+    ]
+
+  },
+  {
+    "title": "Jump Squat",
+    "image": "jump_squat",
+    "body_region": [
+      "lower",
+      "cardio"
+    ],
+    "difficulty": [
+      "medium",
+      "hard"
+    ],
+    "instructions": [
+      "Find an open area in the room without any items on the floor around you",
+      "Stand with your feet hip-width apart and your feet facing forward",
+      "Slowly sit back by bending the hips and knees until the thighs are parallel to the floor",
+      "Keep your weight on your heels throughout the movement and press through them",
+      "From the squat position, jump up as high as you can",
+      "Repeat"
+    ]
+  },
+  {
+    "title": "Air Squat",
+    "image": "air_squat",
+    "body_region": [
+      "lower"
+    ],
+    "difficulty": [
+      "easy",
+      "medium"
+    ],
+    "instructions": [
+      "Find an open area in the room without any items on the floor around you",
+      "Stand with your feet hip-width apart and your feet facing forward",
+      "Slowly sit back by bending the hips and knees until the thighs are parallel to the floor",
+      "Keep your weight on your heels throughout the movement and press through them to return to a standing position",
+      "Repeat"
+      ]
+  },
+  {
+    "title": "Burpee",
+    "image": "burpee",
+    "body_region": [
+      "whole",
+      "cardio"
+    ],
+    "difficulty": [
+      "medium",
+      "hard"
+    ],
+    "instructions": [
+      "Find an open area in the room with enough room to do a pushup",
+      "From a standing position, squat down and place your hands in front of you",
+      "Kick back your feet into a push-up position",
+      "quickly tuck your feet back under you to land in a squat position",
+      "Jump up so your feet leave the ground",
+      "Repeat"
+    ]
+
+  },
+  {
     "title": "Simple Wall Sit",
     "image": "wall_sit",
+    "body_region": [
+      "lower"
+    ],
+    "difficulty": [
+      "easy",
+      "medium"
+    ],
     "instructions": [
       "Find an open wall area, large enough for your body to lean against",
       "Place your back against the wall",
@@ -13,6 +153,15 @@
   {
     "title": "Knee Highs",
     "image": "knee_high",
+    "body_region": [
+      "lower",
+      "cardio"
+    ],
+    "difficulty": [
+      "easy",
+      "medium",
+      "hard"
+    ],
     "instructions": [
       "Find an open area in the room without any items on the floor around you",
       "Make sure the ceiling is high enough to jump without hitting",
@@ -23,6 +172,14 @@
   {
     "title": "Bicycle Crunches",
     "image": "bicycle_crunch",
+    "body_region": [
+      "core"
+    ],
+    "difficulty": [
+      "easy",
+      "medium",
+      "hard"
+    ],
     "instructions": [
       "Find an open area in the room with enough room to laydown",
       "Lay on your back and lift your legs to 90 degrees",
@@ -35,6 +192,14 @@
   {
     "title": "Swimmer",
     "image": "swimmer",
+    "body_region": [
+      "core",
+      "lower"
+    ],
+    "difficulty": [
+      "easy",
+      "medium"
+    ],
     "instructions": [
       "Find an open area in the room with enough room to laydown",
       "Lay on your stomach, arms stretched out in front of you",
@@ -46,6 +211,14 @@
   {
     "title": "Tuck Jumps",
     "image": "tuck_jump",
+    "body_region": [
+      "whole",
+      "cardio"
+    ],
+    "difficulty": [
+      "medium",
+      "hard"
+    ],
     "instructions": [
       "Find an open area in the room without any items on the floor around you",
       "Make sure the ceiling is high enough to jump without hitting",
@@ -56,6 +229,14 @@
   {
     "title": "Shoulder Bridge",
     "image": "shoulder_bridge",
+    "body_region": [
+      "core",
+      "lower"
+    ],
+    "difficulty": [
+      "easy",
+      "medium"
+    ],
     "instructions": [
       "Find an open area in the room with enough room to laydown",
       "Lay on your back and place feet flat on the floor",

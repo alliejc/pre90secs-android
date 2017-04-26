@@ -41,6 +41,7 @@ public class WorkoutFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private CustomRecyclerViewAdapter mAdapter;
     private List mInstructionList;
+    private List<ExerciseItem> mJsonList;
     private LinearLayoutManager mLayoutManager;
     private Boolean mBeepPlayed = false;
 
@@ -107,6 +108,7 @@ public class WorkoutFragment extends Fragment {
 
     private void setupUi() {
 
+//        Log.d("List", mJsonList.toString());
         ExerciseItem itemToDisplay = loadJSONFromAsset();
         mTitleView.setText(itemToDisplay.getTitle());
         mInstructionList = itemToDisplay.getInstructions();
@@ -123,27 +125,33 @@ public class WorkoutFragment extends Fragment {
     }
 
     public ExerciseItem loadJSONFromAsset() {
-        String json = null;
-        try {
-            InputStream is = getActivity().getAssets().open("ExerciseObject.json");
-            int size = is.available();
-            byte[] buffer = new byte[size];
-            is.read(buffer);
-            is.close();
-            json = new String(buffer, "UTF-8");
-        } catch (IOException ex) {
-            ex.printStackTrace();
-            return null;
-        }
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<ExerciseItem>>(){}.getType();
-        List<ExerciseItem> exerciseItemList = gson.fromJson(json, type);
+        if(mJsonList == null) {
+            String json = null;
+            try {
+                InputStream is = getActivity().getAssets().open("ExerciseObject.json");
+                int size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+                json = new String(buffer, "UTF-8");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return null;
+            }
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<ExerciseItem>>() {
+            }.getType();
+            mJsonList = gson.fromJson(json, type);
 
-        for (ExerciseItem exerciseItem : exerciseItemList) {
-            Log.i("Workout Details", exerciseItem.getTitle() + exerciseItem.getImage());
-        }
+            for (ExerciseItem exerciseItem : mJsonList) {
+                Log.d("List", mJsonList.toString());
+                Log.i("Workout Details", exerciseItem.getTitle() + exerciseItem.getImage());
+            }
 
-        return  getRandomItem(exerciseItemList);
+            return getRandomItem(mJsonList);
+        } else {
+            return getRandomItem(mJsonList);
+        }
     }
 
     private ExerciseItem getRandomItem(List<ExerciseItem> exerciseItemList) {

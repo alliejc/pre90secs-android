@@ -22,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static com.googlecode.totallylazy.Sequences.sequence;
+
 
 public class MainActivity extends AppCompatActivity implements WorkoutFragment.OnWorkoutWorkoutCompletedListener, FetchWorkoutFragment.OnFetchWorkoutFragmentInteractionListener, FilterOptionsFragment.OnFilterFragmentInteractionListener {
 
@@ -29,8 +31,6 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
     private Toolbar mToolbar;
 
     private List<ExerciseItem> mJsonList;
-    private List<ExerciseItem> mFilteredJsonList;
-    private ArrayList mInstructionList;
 
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
 
@@ -40,8 +40,6 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_main);
-
-            loadJSONFromAsset();
 
             mFragmentManager = getSupportFragmentManager();
             addFragmentOnTop(FetchWorkoutFragment.newInstance());
@@ -69,24 +67,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
         }
     }
 
-//    private void setupUi() {
-//
-//        ExerciseItem itemToDisplay = mFilteredJsonList;
-//        mTitleView.setText(itemToDisplay.getTitle());
-//        mInstructionList = itemToDisplay.getInstructions();
-//
-//        String image = itemToDisplay.getImage();
-//        Resources resources = getContext().getResources();
-//
-//        int resourceId = resources.getIdentifier(image, "drawable", getContext().getPackageName());
-//        Drawable drawable = getContext().getDrawable(resourceId);
-//
-//        mImageView.setImageDrawable(drawable);
-//        setupRecyclerView();
-//
-//    }
-
-    public ExerciseItem loadJSONFromAsset() {
+    public List<ExerciseItem> getExerciseItemsFromJson() {
         if(mJsonList == null) {
             String json = null;
             try {
@@ -109,12 +90,13 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
                 Log.d("List", mJsonList.toString());
                 Log.i("Workout Details", exerciseItem.getTitle() + exerciseItem.getImage());
             }
-//            ExerciseItem item = getRandomItem(mJsonList);
-//            mInstructionList = (ArrayList) item.getInstructions();
-            return getRandomItem(mJsonList);
-        } else {
-            return getRandomItem(mJsonList);
+
         }
+        return mJsonList;
+    }
+
+    private ExerciseItem getFilteredList(List<ExerciseItem> exerciseItemList) {
+        return getRandomItem(sequence(exerciseItemList).filter(item -> item.getDifficulty().contains("hard")).toList());
     }
 
     private ExerciseItem getRandomItem(List<ExerciseItem> exerciseItemList) {
@@ -142,7 +124,6 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
             TabLayout.Tab tab = mTabLayout.getTabAt(i);
             tab.setCustomView(mPagerAdapter.getTabView(i));
         }
-
 
         mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -199,7 +180,8 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
     @Override
     public void onFetchWorkoutFragmentInteraction() {
-        addFragmentOnTop(WorkoutFragment.newInstance("title", "sumo", mInstructionList));
+        ExerciseItem exerciseItem = getFilteredList(getExerciseItemsFromJson());
+        addFragmentOnTop(WorkoutFragment.newInstance(exerciseItem.getTitle(), exerciseItem.getImage(), exerciseItem.getInstructions()));
     }
 
     @Override

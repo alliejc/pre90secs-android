@@ -62,12 +62,12 @@ public class WorkoutFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static WorkoutFragment newInstance(String title, String image, ArrayList<Parcelable> instructions) {
+    public static WorkoutFragment newInstance(String title, String image, List instructions) {
         WorkoutFragment fragment = new WorkoutFragment();
         Bundle args = new Bundle();
         args.putString(ARG_TITLE, title);
         args.putString(ARG_IMAGE, image);
-        args.putParcelableArrayList(ARG_INSTRUCTIONS, new ArrayList<>(instructions));
+        args.putStringArrayList(ARG_INSTRUCTIONS, new ArrayList<String>(instructions));
         fragment.setArguments(args);
         return fragment;
     }
@@ -79,7 +79,7 @@ public class WorkoutFragment extends Fragment {
         if (getArguments() != null) {
             titleParam = getArguments().getString(ARG_TITLE);
             imageParam = getArguments().getString(ARG_IMAGE);
-            instructionParam = getArguments().getParcelableArrayList(ARG_INSTRUCTIONS);
+            instructionParam = getArguments().getStringArrayList(ARG_INSTRUCTIONS);
         }
     }
 

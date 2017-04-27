@@ -1,0 +1,109 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimaryDark"
+    tools:context="com.allie.pre90secs.FilterOptionsFragment">
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical"
+       android:weightSum="100">
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:paddingTop="10dp"
+           android:text="Difficulty"
+           android:textSize="25sp"
+           android:layout_weight="5"/>
+
+       <View
+           android:layout_width="match_parent"
+           android:layout_height="1sp"
+           android:background="@drawable/recycler_divider" />
+
+  <RadioGroup
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/difficultyRadioGroup"
+      android:layout_weight="5">
+
+     <RadioButton
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:id="@+id/easyRadioButton"
+         android:text="Easy"
+         android:textSize="20sp"
+         android:layout_weight="5"
+         android:checked="true"/>
+     <RadioButton
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:id="@+id/mediumRadioButton"
+         android:text="Medium"
+         android:textSize="20sp"
+         android:layout_weight="5"/>
+      <RadioButton
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:id="@+id/hardRadioButton"
+          android:text="Hard"
+          android:textSize="20sp"
+          android:layout_weight="5" />
+  </RadioGroup>
+
+       <TextView
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:paddingTop="10dp"
+           android:text="Choose A Focus"
+           android:textSize="25sp"
+           android:layout_weight="5"/>
+
+           <View
+               android:layout_width="match_parent"
+               android:layout_height="1sp"
+               android:background="@drawable/recycler_divider" />
+
+       <CheckBox
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/upperRegionCheckBox"
+           android:text="Upper Body"
+           android:textSize="20sp"
+           android:layout_weight="5"/>
+       <CheckBox
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/lowerRegionCheckBox"
+           android:text="Lower Body"
+           android:textSize="20sp"
+           android:layout_weight="5"/>
+       <CheckBox
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/coreRegionCheckBox"
+           android:text="Core"
+           android:textSize="20sp"
+           android:layout_weight="5"/>
+       <CheckBox
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/cardioRegionCheckBox"
+           android:text="Cardio"
+           android:textSize="20sp"
+           android:layout_weight="5"/>
+       <CheckBox
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:id="@+id/wholeBodyRegionCheckBox"
+           android:text="Whole Body"
+           android:textSize="20sp"
+           android:layout_weight="5"
+           android:checked="true"/>
+
+       </LinearLayout>
+
+</FrameLayout>

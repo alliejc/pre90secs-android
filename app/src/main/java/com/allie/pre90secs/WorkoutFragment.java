@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -27,8 +28,11 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
+import static com.allie.pre90secs.R.id.list;
 
 public class WorkoutFragment extends Fragment {
 
@@ -41,24 +45,42 @@ public class WorkoutFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private CustomRecyclerViewAdapter mAdapter;
     private List mInstructionList;
-    private List<ExerciseItem> mJsonList;
     private LinearLayoutManager mLayoutManager;
     private Boolean mBeepPlayed = false;
 
-    private OnWorkoutFragmentInteractionListener mListener;
+    private String titleParam;
+    private String imageParam;
+    private ArrayList instructionParam;
+
+    private static final String ARG_TITLE = "title";
+    private static final String ARG_IMAGE = "image";
+    private static final String ARG_INSTRUCTIONS = "instructions";
+
+    private OnWorkoutWorkoutCompletedListener mListener;
 
     public WorkoutFragment() {
         // Required empty public constructor
     }
 
-    public static WorkoutFragment newInstance() {
+    public static WorkoutFragment newInstance(String title, String image, ArrayList<Parcelable> instructions) {
         WorkoutFragment fragment = new WorkoutFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_TITLE, title);
+        args.putString(ARG_IMAGE, image);
+        args.putParcelableArrayList(ARG_INSTRUCTIONS, new ArrayList<>(instructions));
+        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if (getArguments() != null) {
+            titleParam = getArguments().getString(ARG_TITLE);
+            imageParam = getArguments().getString(ARG_IMAGE);
+            instructionParam = getArguments().getParcelableArrayList(ARG_INSTRUCTIONS);
+        }
     }
 
     @Override
@@ -107,59 +129,16 @@ public class WorkoutFragment extends Fragment {
     }
 
     private void setupUi() {
-
-//        Log.d("List", mJsonList.toString());
-        ExerciseItem itemToDisplay = loadJSONFromAsset();
-        mTitleView.setText(itemToDisplay.getTitle());
-        mInstructionList = itemToDisplay.getInstructions();
-
-        String image = itemToDisplay.getImage();
+        mTitleView.setText(titleParam);
+        mInstructionList = instructionParam;
         Resources resources = getContext().getResources();
-
-        int resourceId = resources.getIdentifier(image, "drawable", getContext().getPackageName());
-        Drawable drawable = resources.getDrawable(resourceId);
-
+        int resourceId = resources.getIdentifier(imageParam, "drawable", getContext().getPackageName());
+        Drawable drawable = getContext().getDrawable(resourceId);
         mImageView.setImageDrawable(drawable);
+
         setupRecyclerView();
 
-    }
 
-    public ExerciseItem loadJSONFromAsset() {
-        if(mJsonList == null) {
-            String json = null;
-            try {
-                InputStream is = getActivity().getAssets().open("ExerciseObject.json");
-                int size = is.available();
-                byte[] buffer = new byte[size];
-                is.read(buffer);
-                is.close();
-                json = new String(buffer, "UTF-8");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return null;
-            }
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<ExerciseItem>>() {
-            }.getType();
-            mJsonList = gson.fromJson(json, type);
-
-            for (ExerciseItem exerciseItem : mJsonList) {
-                Log.d("List", mJsonList.toString());
-                Log.i("Workout Details", exerciseItem.getTitle() + exerciseItem.getImage());
-            }
-
-            return getRandomItem(mJsonList);
-        } else {
-            return getRandomItem(mJsonList);
-        }
-    }
-
-    private ExerciseItem getRandomItem(List<ExerciseItem> exerciseItemList) {
-        int max = exerciseItemList.size();
-        Random r = new Random();
-        int random = r.nextInt(max);
-
-        return exerciseItemList.get(random);
     }
 
     private void updateTimerUi() {
@@ -225,21 +204,20 @@ public class WorkoutFragment extends Fragment {
         startButton.setVisibility(View.VISIBLE);
 
         resetTimerHandler();
-
-        backToFetchScreen();
+        backToFetchWorkoutScreen();
     }
 
-    public void backToFetchScreen() {
+    public void backToFetchWorkoutScreen() {
         if (mListener != null) {
-            mListener.onWorkoutFragmentInteraction();
+            mListener.onWorkoutCompleted();
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnWorkoutFragmentInteractionListener) {
-            mListener = (OnWorkoutFragmentInteractionListener) context;
+        if (context instanceof OnWorkoutWorkoutCompletedListener) {
+            mListener = (OnWorkoutWorkoutCompletedListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -253,7 +231,8 @@ public class WorkoutFragment extends Fragment {
         resetTimerHandler();
     }
 
-    public interface OnWorkoutFragmentInteractionListener {
-        void onWorkoutFragmentInteraction();
+    public interface OnWorkoutWorkoutCompletedListener {
+        void onWorkoutCompleted();
+
     }
 }

@@ -2,19 +2,15 @@ package com.allie.pre90secs;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,17 +18,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.allie.pre90secs.Data.ExerciseItem;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-import java.io.IOException;
-import java.io.InputStream;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import static com.allie.pre90secs.R.id.list;
 
 public class WorkoutFragment extends Fragment {
 
@@ -43,9 +30,7 @@ public class WorkoutFragment extends Fragment {
     private Handler mTimerHandler = new Handler();
     private int mTotalTime = 0;
     private RecyclerView mRecyclerView;
-    private CustomRecyclerViewAdapter mAdapter;
     private List mInstructionList;
-    private LinearLayoutManager mLayoutManager;
     private Boolean mBeepPlayed = false;
 
     private String titleParam;
@@ -86,7 +71,6 @@ public class WorkoutFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_workout, container, false);
 
         mTitleView = (TextView) v.findViewById(R.id.title);
@@ -103,32 +87,27 @@ public class WorkoutFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        setupUi();
+        loadUi();
 
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startTimer();
-            }
-        });
+        startButton.setOnClickListener(v -> startTimer());
     }
 
-    private void setupRecyclerView() {
+    private void setRecyclerView() {
         Drawable dividerDrawable = ContextCompat.getDrawable(getContext(), R.drawable.recycler_divider);
         RecyclerView.ItemDecoration dividerItemDecoration = new RecyclerDivider(dividerDrawable);
         mRecyclerView.addItemDecoration(dividerItemDecoration);
 
-        mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        mAdapter = new CustomRecyclerViewAdapter(mInstructionList, getContext());
+        CustomRecyclerViewAdapter mAdapter= new CustomRecyclerViewAdapter(mInstructionList, getContext());
 
         mRecyclerView.setAdapter(mAdapter);
 
     }
 
-    private void setupUi() {
+    private void loadUi() {
         mTitleView.setText(titleParam);
         mInstructionList = instructionParam;
         Resources resources = getContext().getResources();
@@ -136,9 +115,7 @@ public class WorkoutFragment extends Fragment {
         Drawable drawable = getContext().getDrawable(resourceId);
         mImageView.setImageDrawable(drawable);
 
-        setupRecyclerView();
-
-
+        setRecyclerView();
     }
 
     private void updateTimerUi() {
@@ -159,31 +136,17 @@ public class WorkoutFragment extends Fragment {
         workoutTimer.setText(String.format("%2d:%02d", mMinutes, mSeconds, 0));
     }
 
-    Runnable timerRunnable = new Runnable() {
-        @Override
-        public void run() {
-            updateTimerUi();
-
-        }
-    };
+    Runnable timerRunnable = () -> updateTimerUi();
 
     private void playBeep() {
 
         final MediaPlayer mediaPlayer = MediaPlayer.create(getContext(), R.raw.beep);
 
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mp) {
-                mediaPlayer.start();
-            }
-        });
+        mediaPlayer.setOnPreparedListener(mp -> mediaPlayer.start());
 
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                mBeepPlayed = true;
-                mediaPlayer.release();
-            }
+        mediaPlayer.setOnCompletionListener(mp -> {
+            mBeepPlayed = true;
+            mediaPlayer.release();
         });
     }
 
@@ -232,7 +195,7 @@ public class WorkoutFragment extends Fragment {
     }
 
     public interface OnWorkoutWorkoutCompletedListener {
+        //call back to MainActivity on completed
         void onWorkoutCompleted();
-
     }
 }

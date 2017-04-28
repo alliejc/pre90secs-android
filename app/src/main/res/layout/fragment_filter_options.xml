@@ -15,7 +15,7 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:paddingTop="10dp"
-           android:text="Difficulty"
+           android:text="@string/pref_category_title_difficulty"
            android:textSize="25sp"
            android:layout_weight="5"/>
 
@@ -58,7 +58,7 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:paddingTop="10dp"
-           android:text="Choose A Focus"
+           android:text="@string/pref_category_title_body_region"
            android:textSize="25sp"
            android:layout_weight="5"/>
 
@@ -71,35 +71,35 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/upperRegionCheckBox"
-           android:text="Upper Body"
+           android:text="@string/pref_title_upper_body"
            android:textSize="20sp"
            android:layout_weight="5"/>
        <CheckBox
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/lowerRegionCheckBox"
-           android:text="Lower Body"
+           android:text="@string/pref_title_lower_body"
            android:textSize="20sp"
            android:layout_weight="5"/>
        <CheckBox
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/coreRegionCheckBox"
-           android:text="Core"
+           android:text="@string/pref_title_core"
            android:textSize="20sp"
            android:layout_weight="5"/>
        <CheckBox
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/cardioRegionCheckBox"
-           android:text="Cardio"
+           android:text="@string/pref_title_cardio"
            android:textSize="20sp"
            android:layout_weight="5"/>
        <CheckBox
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/wholeBodyRegionCheckBox"
-           android:text="Whole Body"
+           android:text="@string/pref_title_whole_body"
            android:textSize="20sp"
            android:layout_weight="5"
            android:checked="true"/>

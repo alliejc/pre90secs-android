@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <PreferenceCatergory
+        android:title="@string/pref_category_title_difficulty"
+        android:key="pref_key_difficulty">
+
+        <ListPreference
+            android:key="pref_key_difficulty"
+            android:title="@string/pref_category_title_difficulty"
+            android:dialogTitle="@string/pref_category_title_difficulty"
+            android:entries="@array/pref_difficulty_entries"
+            android:entryValues="@array/pref_difficulty_entries">
+        </ListPreference>
+
+    </PreferenceCatergory>
+
+    <PreferenceCatergory
+        android:title="@string/pref_category_title_body_region"
+        android:key="pref_key_body_region">
+
+        <CheckBoxPreference
+            android:key="pref_key_upper_body"
+            android:title="@string/pref_title_upper_body"
+            android:defaultValue="false" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:key="pref_key_lower_body"
+            android:title="@string/pref_title_lower_body"
+            android:defaultValue="false" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:key="pref_key_core"
+            android:title="@string/pref_title_core"
+            android:defaultValue="false" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:key="pref_key_cardio"
+            android:title="@string/pref_title_cardio"
+            android:defaultValue="false" >
+        </CheckBoxPreference>
+        <CheckBoxPreference
+            android:key="pref_key_whole_body"
+            android:title="@string/pref_title_whole_body"
+            android:defaultValue="true" >
+        </CheckBoxPreference>
+
+    </PreferenceCatergory>
+
+</PreferenceScreen>

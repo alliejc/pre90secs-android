@@ -1,7 +1,7 @@
 package com.allie.pre90secs;
 
 import android.content.Context;
-import android.media.Image;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -11,10 +11,10 @@ import android.widget.ImageView;
 
 
 public class TabPagerAdapter extends FragmentPagerAdapter {
-    public int mNumOfTabs;
-    public Context context;
-    public ImageView icon;
-    public FragmentManager fragmentManager;
+    private int mNumOfTabs;
+    private Context context;
+    private ImageView icon;
+    private FragmentManager fragmentManager;
 
     public TabPagerAdapter(FragmentManager fm, Context context, int NumOfTabs) {
         super(fm);

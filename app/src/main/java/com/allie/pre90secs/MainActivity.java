@@ -1,6 +1,7 @@
 package com.allie.pre90secs;
 
 import android.support.design.widget.TabLayout;
+
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -18,7 +19,6 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
     private FragmentManager mFragmentManager;
     private Toolbar mToolbar;
 
-    private List<ExerciseItem> mJsonList;
+    private static List<ExerciseItem> mJsonList;
 
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
 
@@ -95,8 +95,10 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
         return mJsonList;
     }
 
-    private ExerciseItem getFilteredList(List<ExerciseItem> exerciseItemList) {
-        return getRandomItem(sequence(exerciseItemList).filter(item -> item.getDifficulty().contains("hard")).toList());
+    private List<ExerciseItem> getFilteredList() {
+      return sequence(getExerciseItemsFromJson())
+                .filter(item -> item.getBodyRegion().contains("lower"))
+                .filter(item -> item.getDifficulty().contains("hard")).toList();
     }
 
     private ExerciseItem getRandomItem(List<ExerciseItem> exerciseItemList) {
@@ -109,17 +111,14 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
     private void setupTabViews() {
 
-        // Get the ViewPager and set it's PagerAdapter so that it can display items
        ViewPager mViewPager = (ViewPager) findViewById(R.id.viewpager);
        TabPagerAdapter mPagerAdapter =
                 new TabPagerAdapter(getSupportFragmentManager(), MainActivity.this, 2);
         mViewPager.setAdapter(mPagerAdapter);
 
-        // Give the TabLayout the ViewPager
         TabLayout mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
         mTabLayout.setupWithViewPager(mViewPager);
 
-        // Iterate over all tabs and set the custom view
         for (int i = 0; i < mTabLayout.getTabCount(); i++) {
             TabLayout.Tab tab = mTabLayout.getTabAt(i);
             tab.setCustomView(mPagerAdapter.getTabView(i));
@@ -180,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
     @Override
     public void onFetchWorkoutFragmentInteraction() {
-        ExerciseItem exerciseItem = getFilteredList(getExerciseItemsFromJson());
+        ExerciseItem exerciseItem = getRandomItem(getFilteredList());
         addFragmentOnTop(WorkoutFragment.newInstance(exerciseItem.getTitle(), exerciseItem.getImage(), exerciseItem.getInstructions()));
     }
 

@@ -1,10 +1,10 @@
 package com.allie.pre90secs;
 
-import android.support.design.widget.TabLayout;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.SharedPreferences;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -19,8 +19,11 @@ import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import static com.googlecode.totallylazy.Sequences.sequence;
 
@@ -29,10 +32,16 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
     private FragmentManager mFragmentManager;
     private Toolbar mToolbar;
+    private ActionBar mActionBar;
+    private SharedPreferences myPrefs;
+    private Set<String> bodyRegionDefault = new HashSet<String>();
+    public static final String PREFS_FILE = "MyPrefsFile";
+    private String difficultyDefault = "easy";
 
     private static List<ExerciseItem> mJsonList;
 
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
+    private static final String ROOT = "root";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +50,19 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_main);
 
-            mFragmentManager = getSupportFragmentManager();
-            addFragmentOnTop(FetchWorkoutFragment.newInstance());
+            mFragmentManager = getFragmentManager();
+            mFragmentManager.beginTransaction().replace(R.id.main_framelayout, FetchWorkoutFragment.newInstance()).addToBackStack(ROOT).commit();
+//            addFragmentOnTop(FetchWorkoutFragment.newInstance());
         }
+        myPrefs = getApplicationContext().getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
+        bodyRegionDefault.add("whole");
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-        setupTabViews();
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(myToolbar);
+        mActionBar = getSupportActionBar();
+        mActionBar.setTitle(R.string.app_name);
+        mActionBar.setDisplayShowTitleEnabled(true);
+        mActionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -60,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_settings:
+                addFragmentOnTop(FilterOptionsFragment.newInstance());
                 return true;
 
             default:
@@ -68,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
     }
 
     public List<ExerciseItem> getExerciseItemsFromJson() {
-        if(mJsonList == null) {
+        if (mJsonList == null) {
             String json = null;
             try {
                 InputStream is = MainActivity.this.getAssets().open("ExerciseObject.json");
@@ -90,15 +106,17 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
                 Log.d("List", mJsonList.toString());
                 Log.i("Workout Details", exerciseItem.getTitle() + exerciseItem.getImage());
             }
-
         }
         return mJsonList;
     }
 
     private List<ExerciseItem> getFilteredList() {
-      return sequence(getExerciseItemsFromJson())
-                .filter(item -> item.getBodyRegion().contains("lower"))
-                .filter(item -> item.getDifficulty().contains("hard")).toList();
+        List <String> list = new ArrayList<String>(myPrefs.getStringSet("body_region", bodyRegionDefault));
+        String difficulty = myPrefs.getString("difficulty", difficultyDefault);
+
+        return sequence(getExerciseItemsFromJson())
+                .filter(item -> item.getBodyRegion().contains(list))
+                .filter(item -> item.getDifficulty().contains(difficulty)).toList();
     }
 
     private ExerciseItem getRandomItem(List<ExerciseItem> exerciseItemList) {
@@ -108,48 +126,48 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
         return exerciseItemList.get(random);
     }
-
-    private void setupTabViews() {
-
-       ViewPager mViewPager = (ViewPager) findViewById(R.id.viewpager);
-       TabPagerAdapter mPagerAdapter =
-                new TabPagerAdapter(getSupportFragmentManager(), MainActivity.this, 2);
-        mViewPager.setAdapter(mPagerAdapter);
-
-        TabLayout mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-        mTabLayout.setupWithViewPager(mViewPager);
-
-        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
-            TabLayout.Tab tab = mTabLayout.getTabAt(i);
-            tab.setCustomView(mPagerAdapter.getTabView(i));
-        }
-
-        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-
-                if(tab.getPosition() == 0){
-                    addFragmentOnTop(FetchWorkoutFragment.newInstance());
-                }
-                if(tab.getPosition() == 1){
-                    addFragmentOnTop(FilterOptionsFragment.newInstance());
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-    }
+//
+//    private void setupTabViews() {
+//
+//        ViewPager mViewPager = (ViewPager) findViewById(R.id.viewpager);
+//        TabPagerAdapter mPagerAdapter =
+//                new TabPagerAdapter(getSupportFragmentManager(), MainActivity.this, 2);
+//        mViewPager.setAdapter(mPagerAdapter);
+//
+//        TabLayout mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
+//        mTabLayout.setupWithViewPager(mViewPager);
+//
+//        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
+//            TabLayout.Tab tab = mTabLayout.getTabAt(i);
+//            tab.setCustomView(mPagerAdapter.getTabView(i));
+//        }
+//
+//        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//
+//                if (tab.getPosition() == 0) {
+//                    addFragmentOnTop(FetchWorkoutFragment.newInstance());
+//                }
+//                if (tab.getPosition() == 1) {
+//                    addFragmentOnTop(FilterOptionsFragment.newInstance());
+//                }
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//
+//            }
+//        });
+//    }
 
     public void addFragmentOnTop(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
         fragmentManager
@@ -161,10 +179,10 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
     @Override
     public void onBackPressed() {
-       if (mFragmentManager.getBackStackEntryCount() > 1) {
+        if (mFragmentManager.getBackStackEntryCount() >= 1) {
             mFragmentManager.popBackStackImmediate();
 
-        } else if (mFragmentManager.getBackStackEntryCount() <= 1) {
+        } else if (mFragmentManager.getBackStackEntryCount() < 1) {
             moveTaskToBack(true);
 
         } else {
@@ -184,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
     }
 
     @Override
-    public void onFilterFragmentInteraction(String difficulty, List bodyRegionChoices) {
-        //apply filters to JSON query
+    public void onFilterFragmentInteraction() {
     }
+
 }

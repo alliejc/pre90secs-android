@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="pref_difficulty_entries">
+        <item>Easy</item>
+        <item>Medium</item>
+        <item>Hard</item>
+    </string-array>
+
+    <string-array name="pref_body_region_entries">
+        <item>Upper Body</item>
+        <item>Lower Body</item>
+        <item>Core</item>
+        <item>Cardio</item>
+        <item>Whole Body</item>
+    </string-array>
+</resources>

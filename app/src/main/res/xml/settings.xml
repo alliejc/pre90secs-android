@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ListPreference
+        android:key="pref_key_difficulty_list"
+        android:dialogTitle="@string/pref_category_title_difficulty"
+        android:entries="@array/pref_difficulty_entries"
+        android:entryValues="@array/pref_difficulty_entries"
+        android:summary="Select difficulty level"
+        android:title="@string/pref_category_title_difficulty"
+        app:persistent="false" />
+
+    <PreferenceCategory
+        android:key="pref_key_body_region"
+        android:title="Choose A Focus">
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_upper_body"
+            android:title="@string/pref_title_upper_body" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_lower_body"
+            android:title="@string/pref_title_lower_body" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_core"
+            android:title="@string/pref_title_core" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_key_cardio"
+            android:title="@string/pref_title_cardio" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pref_key_whole_body"
+            android:title="@string/pref_title_whole_body" />
+    </PreferenceCategory>
+</PreferenceScreen>

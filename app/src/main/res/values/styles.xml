@@ -8,6 +8,8 @@
 
         <item name="android:actionButtonStyle">@color/white</item>
         <item name="android:textColorPrimary">@color/white</item>
+        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="android:activatedBackgroundIndicator">?android:attr/selectableItemBackground</item>
     </style>
 
     <style name="MyCustomTabLayout" parent="Widget.Design.TabLayout">

@@ -3,6 +3,7 @@
     <string name="fetch_workout_button">Fetch a workout</string>
     <string name="pref_category_title_difficulty">Difficulty</string>
     <string name="pref_category_title_body_region">Choose a Focus</string>
+    <string name="pref_summary_body_region">Choose a body region to focus on</string>
 
     <string name="pref_title_upper_body">Upper Body</string>
     <string name="pref_title_core">Core</string>
@@ -10,11 +11,6 @@
     <string name="pref_title_cardio">Cardio</string>
     <string name="pref_title_whole_body">Whole Body</string>
 
+    <string name="title_activity_settings">Settings</string>
 
-
-    <array name="pref_difficulty_entries">
-        Easy,
-        Medium,
-        Hard
-    </array>
 </resources>

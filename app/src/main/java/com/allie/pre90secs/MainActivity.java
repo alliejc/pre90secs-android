@@ -31,7 +31,6 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 public class MainActivity extends AppCompatActivity implements WorkoutFragment.OnWorkoutWorkoutCompletedListener, FetchWorkoutFragment.OnFetchWorkoutFragmentInteractionListener, FilterOptionsFragment.OnFilterFragmentInteractionListener {
 
     private FragmentManager mFragmentManager;
-    private Toolbar mToolbar;
     private ActionBar mActionBar;
     private SharedPreferences myPrefs;
     private Set<String> bodyRegionDefault = new HashSet<String>();
@@ -52,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
             mFragmentManager = getFragmentManager();
             mFragmentManager.beginTransaction().replace(R.id.main_framelayout, FetchWorkoutFragment.newInstance()).addToBackStack(ROOT).commit();
-//            addFragmentOnTop(FetchWorkoutFragment.newInstance());
         }
         myPrefs = getApplicationContext().getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
         bodyRegionDefault.add("whole");
@@ -114,9 +112,11 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
         List <String> list = new ArrayList<String>(myPrefs.getStringSet("body_region", bodyRegionDefault));
         String difficulty = myPrefs.getString("difficulty", difficultyDefault);
 
-        return sequence(getExerciseItemsFromJson())
-                .filter(item -> item.getBodyRegion().contains(list))
+        List<ExerciseItem> exerciseItems = sequence(getExerciseItemsFromJson())
+                .filter(item -> item.getBodyRegion().contains(list.get(0)))
                 .filter(item -> item.getDifficulty().contains(difficulty)).toList();
+        return exerciseItems;
+
     }
 
     private ExerciseItem getRandomItem(List<ExerciseItem> exerciseItemList) {
@@ -126,45 +126,6 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
         return exerciseItemList.get(random);
     }
-//
-//    private void setupTabViews() {
-//
-//        ViewPager mViewPager = (ViewPager) findViewById(R.id.viewpager);
-//        TabPagerAdapter mPagerAdapter =
-//                new TabPagerAdapter(getSupportFragmentManager(), MainActivity.this, 2);
-//        mViewPager.setAdapter(mPagerAdapter);
-//
-//        TabLayout mTabLayout = (TabLayout) findViewById(R.id.tab_layout);
-//        mTabLayout.setupWithViewPager(mViewPager);
-//
-//        for (int i = 0; i < mTabLayout.getTabCount(); i++) {
-//            TabLayout.Tab tab = mTabLayout.getTabAt(i);
-//            tab.setCustomView(mPagerAdapter.getTabView(i));
-//        }
-//
-//        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-//            @Override
-//            public void onTabSelected(TabLayout.Tab tab) {
-//
-//                if (tab.getPosition() == 0) {
-//                    addFragmentOnTop(FetchWorkoutFragment.newInstance());
-//                }
-//                if (tab.getPosition() == 1) {
-//                    addFragmentOnTop(FilterOptionsFragment.newInstance());
-//                }
-//            }
-//
-//            @Override
-//            public void onTabUnselected(TabLayout.Tab tab) {
-//
-//            }
-//
-//            @Override
-//            public void onTabReselected(TabLayout.Tab tab) {
-//
-//            }
-//        });
-//    }
 
     public void addFragmentOnTop(Fragment fragment) {
         FragmentManager fragmentManager = getFragmentManager();
@@ -197,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
     @Override
     public void onFetchWorkoutFragmentInteraction() {
+
         ExerciseItem exerciseItem = getRandomItem(getFilteredList());
         addFragmentOnTop(WorkoutFragment.newInstance(exerciseItem.getTitle(), exerciseItem.getImage(), exerciseItem.getInstructions()));
     }

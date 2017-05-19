@@ -1,7 +1,7 @@
 [
   {
     "title": "Sumo Squat",
-    "image": "sumo",
+    "image": "squat_sumo",
     "body_region": [
      "lower"
     ],
@@ -18,7 +18,7 @@
   },
   {
     "title": "Side Plank",
-    "image": "side_plank",
+    "image": "plank_side",
     "body_region": [
       "core"
     ],
@@ -75,7 +75,7 @@
   },
   {
     "title": "Jump Squat",
-    "image": "jump_squat",
+    "image": "squat_jump",
     "body_region": [
       "lower",
       "cardio"
@@ -95,7 +95,7 @@
   },
   {
     "title": "Air Squat",
-    "image": "air_squat",
+    "image": "squat_air",
     "body_region": [
       "lower"
     ],
@@ -130,7 +130,6 @@
       "Jump up so your feet leave the ground",
       "Repeat"
     ]
-
   },
   {
     "title": "Simple Wall Sit",
@@ -242,6 +241,149 @@
       "Lay on your back and place feet flat on the floor",
       "Contracting with your abs and bressing down with your feet lift your hips into the air",
       "Control lowering of hips back the the ground",
+      "Repeat"
+    ]
+  },
+  {
+    "title": "Back Extension",
+    "image": "back_extension",
+    "body_region": [
+      "core",
+      "lower",
+      "whole",
+      "upper"
+    ],
+    "difficulty": [
+      "easy",
+      "medium"
+    ],
+    "instructions": [
+      "Find an open area in the room with enough room to laydown",
+      "Lay on your stomach, by your side, forehead on the floor",
+      "Contracting your stomach and glutes, lift everything off the floor except from your rib cage to hip bones",
+      "Lift as high as you can",
+      "Keeping control, lower back to starting position",
+      "Hold and Repeat"
+    ]
+  },
+  {
+    "title": "Star Plank",
+    "image": "plank_star",
+    "body_region": [
+      "core",
+      "whole"
+    ],
+    "difficulty": [
+      "medium",
+      "hard"
+    ],
+    "instructions": [
+      "Find an open area in the room with enough room to lay down",
+      "Starting on your hands and knees, stretch your feet back behind you",
+      "Keeping your core tight, by pulling your belly button to your spine",
+      "Walk your hands and feet away from your body and apart",
+      "Hold"
+    ]
+  },
+  {
+    "title": "Pushup",
+    "image": "pushup_basic",
+    "body_region": [
+      "upper",
+      "whole"
+    ],
+    "difficulty": [
+      "medium",
+      "hard"
+    ],
+    "instructions": [
+      "Find an open area in the room with enough room to lay down",
+      "Squat down and place your hands in front of you, and walk your feet back",
+      "Keeping your core tight & shoulders away from your ears",
+      "Lower your chest as close to the floor as you can",
+      "Repeat"
+    ]
+  },
+  {
+    "title": "Clap Pushup",
+    "image": "pushup_clap",
+    "body_region": [
+      "upper",
+      "core",
+      "whole",
+      "cardio"
+    ],
+    "difficulty": [
+      "hard"
+    ],
+    "instructions": [
+      "Find an open area in the room with enough room to lay down",
+      "Squat down and place your hands in front of you, and walk your feet back",
+      "Keeping your core tight & shoulders away from your ears",
+      "Lower your chest as close to the floor as you can",
+      "From the lowest point, push up quickly launching your upper body into the air and clapping your hands",
+      "Land in the starting position",
+      "Repeat"
+    ]
+  },
+  {
+    "title": "Pike Pushup",
+    "image": "pushup_pike",
+    "body_region": [
+      "core",
+      "upper",
+      "whole"
+    ],
+    "difficulty": [
+      "medium",
+      "hard"
+    ],
+    "instructions": [
+      "Find an open area in the room with enough room to lay down",
+      "Squat down and place your hands in front of you, and walk your feet back till you create a V shape with your body",
+      "Keeping your core tight & shoulders away from your ears",
+      "Lower the top of your head, at an angle, almost to the floor",
+      "Push back up to starting position",
+      "Repeat"
+    ]
+  },
+  {
+    "title": "Basic Forward Lunge",
+    "image": "lunge_front_basic",
+    "body_region": [
+      "lower"
+    ],
+    "difficulty": [
+      "easy",
+      "medium"
+    ],
+    "instructions": [
+      "Find an open area in the room without any items on the floor around you",
+      "Stand with your feet hip-width apart and your feet facing forward",
+      "Take one average step forward",
+      "Lower your back knee directly towards the floor, creating a 90 degree angle",
+      "Keep your weight balanced between both feet",
+      "Return to starting position",
+      "Repeat"
+    ]
+  },
+  {
+    "title": "Jump Lunge",
+    "image": "lunge_jump",
+    "body_region": [
+      "lower",
+      "cardio"
+    ],
+    "difficulty": [
+      "medium",
+      "hard"
+    ],
+    "instructions": [
+      "Find an open area in the room without any items on the floor around you",
+      "Stand with your feet hip-width apart and your feet facing forward",
+      "Take one average step forward",
+      "Lower your back knee directly towards the floor, creating a 90 degree angle",
+      "From the lowest point, jump from both feet into the air switching which foot is in front",
       "Repeat"
     ]
   }

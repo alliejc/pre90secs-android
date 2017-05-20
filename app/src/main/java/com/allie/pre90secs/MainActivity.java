@@ -16,11 +16,14 @@ import android.view.MenuItem;
 import com.allie.pre90secs.Data.ExerciseItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.googlecode.totallylazy.Sequence;
+import com.googlecode.totallylazy.Sequences;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -113,12 +116,18 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
     }
 
     private List<ExerciseItem> getFilteredList() {
+
+//current body region setting list
         List <String> list = new ArrayList<String>(myPrefs.getStringSet("body_region", bodyRegionDefault));
+
+        //current difficulty setting
         String difficulty = myPrefs.getString("difficulty", difficultyDefault);
 
         List<ExerciseItem> exerciseItems = sequence(getExerciseItemsFromJson())
                 .filter(item -> item.getBodyRegion().contains(list.get(0)))
-                .filter(item -> item.getDifficulty().contains(difficulty)).toList();
+                .filter(item -> item.getDifficulty().contains(difficulty))
+                .toList();
+
         return exerciseItems;
     }
 
@@ -143,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
         if (mFragmentManager.getBackStackEntryCount() >= 1) {
             mFragmentManager.popBackStackImmediate();
 

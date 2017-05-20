@@ -20,7 +20,8 @@
     "title": "Side Plank",
     "image": "plank_side",
     "body_region": [
-      "core"
+      "core",
+      "whole"
     ],
     "difficulty": [
       "easy",
@@ -40,7 +41,8 @@
     "title": "Basic Plank",
     "image": "plank_basic",
     "body_region": [
-      "core"
+      "core",
+      "whole"
     ],
     "difficulty": [
       "easy",
@@ -58,7 +60,8 @@
     "image": "mountain_climbers",
     "body_region": [
       "core",
-      "cardio"
+      "cardio",
+      "whole"
     ],
     "difficulty": [
       "medium",
@@ -116,6 +119,7 @@
     "image": "burpee",
     "body_region": [
       "whole",
+      "lower",
       "cardio"
     ],
     "difficulty": [
@@ -154,6 +158,7 @@
     "image": "knee_high",
     "body_region": [
       "lower",
+      "whole",
       "cardio"
     ],
     "difficulty": [
@@ -193,7 +198,8 @@
     "image": "swimmer",
     "body_region": [
       "core",
-      "lower"
+      "lower",
+      "upper"
     ],
     "difficulty": [
       "easy",
@@ -212,7 +218,8 @@
     "image": "tuck_jump",
     "body_region": [
       "whole",
-      "cardio"
+      "cardio",
+      "lower"
     ],
     "difficulty": [
       "medium",

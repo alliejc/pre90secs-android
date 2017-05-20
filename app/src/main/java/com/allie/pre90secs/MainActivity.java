@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.SharedPreferences;
 
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
         mActionBar = getSupportActionBar();
         mActionBar.setTitle(R.string.app_name);
         mActionBar.setDisplayShowTitleEnabled(true);
-        mActionBar.setDisplayHomeAsUpEnabled(true);
+        mActionBar.setHomeButtonEnabled(true);
     }
 
     @Override
@@ -76,6 +77,9 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
                 addFragmentOnTop(FilterOptionsFragment.newInstance());
                 return true;
 
+            case android.R.id.home:
+                onBackPressed();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -116,7 +120,6 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
                 .filter(item -> item.getBodyRegion().contains(list.get(0)))
                 .filter(item -> item.getDifficulty().contains(difficulty)).toList();
         return exerciseItems;
-
     }
 
     private ExerciseItem getRandomItem(List<ExerciseItem> exerciseItemList) {
@@ -140,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
     @Override
     public void onBackPressed() {
+//        super.onBackPressed();
         if (mFragmentManager.getBackStackEntryCount() >= 1) {
             mFragmentManager.popBackStackImmediate();
 

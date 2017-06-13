@@ -11,6 +11,8 @@
     <string name="pref_title_cardio">Cardio</string>
     <string name="pref_title_whole_body">Whole Body</string>
 
+    <string name="pref_title_limited_space">Limited Space</string>
+
     <string name="title_activity_settings">Settings</string>
 
 </resources>

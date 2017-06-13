@@ -28,6 +28,7 @@ public class FilterOptionsFragment extends Fragment {
     private CheckBox mCoreCheck;
     private CheckBox mCardioCheck;
     private CheckBox mWholeBodyCheck;
+    private CheckBox mLimitedSpace;
     private Button mSaveButton;
     private RadioButton mEasyButton;
     private RadioButton mMediumButton;
@@ -37,6 +38,8 @@ public class FilterOptionsFragment extends Fragment {
     private Set<String> bodyRegionDefault = new HashSet<String>();
     private String difficultyDefault = "easy";
     private String difficulty;
+    private Boolean limitedSpace;
+    private Boolean limitedSpaceDefault = false;
     private SharedPreferences pref;
 
     public static final String PREFS_FILE = "MyPrefsFile";
@@ -74,6 +77,7 @@ public class FilterOptionsFragment extends Fragment {
         mWholeBodyCheck = (CheckBox) v.findViewById(R.id.wholeBodyRegionCheckBox);
         mCardioCheck = (CheckBox) v.findViewById(R.id.cardioRegionCheckBox);
         mCoreCheck = (CheckBox) v.findViewById(R.id.coreRegionCheckBox);
+        mLimitedSpace = (CheckBox) v.findViewById(R.id.limitedSpaceCheckBox);
         mSaveButton = (Button) v.findViewById(R.id.save_button);
 
         return v;
@@ -89,8 +93,10 @@ public class FilterOptionsFragment extends Fragment {
 
         List<String> list = new ArrayList<String>(pref.getStringSet("body_region", bodyRegionDefault));
         String diff = pref.getString("difficulty", difficultyDefault);
+        Boolean b = pref.getBoolean("limited_space", limitedSpaceDefault);
         updateCheckBoxUi(list);
         updateRadioButtonUi(diff);
+        setLimitedSpace(b);
     }
 
     private void updateRadioButtonUi(String difficulty) {
@@ -112,14 +118,17 @@ public class FilterOptionsFragment extends Fragment {
 
         difficulty = pref.getString("difficulty", difficultyDefault);
         bodyRegions = pref.getStringSet("body_region", bodyRegionDefault);
+        limitedSpace = pref.getBoolean("limited_space", limitedSpaceDefault);
 
         setDifficulty(difficulty);
+//        setLimitedSpace(limitedSpace);
     }
 
     private void onSaveClicked() {
 
         pref.edit().putStringSet("body_region", bodyRegions).apply();
         pref.edit().putString("difficulty", difficulty).apply();
+        pref.edit().putBoolean("limited_space", limitedSpace).apply();
     }
 
     public void onRadioButtonClicked(int id) {
@@ -138,6 +147,15 @@ public class FilterOptionsFragment extends Fragment {
 
     private void setDifficulty(String name) {
         difficulty = name;
+    }
+
+    private void setLimitedSpace(Boolean b){
+        limitedSpace = b;
+        if(b){
+            mLimitedSpace.setChecked(true);
+        } else {
+            mLimitedSpace.setChecked(false);
+        }
     }
 
     private void setupRadioButtons() {
@@ -161,6 +179,9 @@ public class FilterOptionsFragment extends Fragment {
         });
         mCoreCheck.setOnCheckedChangeListener((buttonView, isChecked) -> {
            setCheckBox(isChecked, "core");
+        });
+        mLimitedSpace.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            setLimitedSpace(isChecked);
         });
     }
 

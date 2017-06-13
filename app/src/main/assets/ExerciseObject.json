@@ -5,6 +5,7 @@
     "body_region": [
      "lower"
     ],
+    "limited_space": "true",
     "difficulty": [
       "easy",
       "medium"
@@ -23,6 +24,7 @@
       "core",
       "whole"
     ],
+    "limited_space": "false",
     "difficulty": [
       "easy",
       "medium",
@@ -44,6 +46,7 @@
       "core",
       "whole"
     ],
+    "limited_space": "false",
     "difficulty": [
       "easy",
       "medium"
@@ -63,6 +66,7 @@
       "cardio",
       "whole"
     ],
+    "limited_space": "false",
     "difficulty": [
       "medium",
       "hard"
@@ -83,6 +87,7 @@
       "lower",
       "cardio"
     ],
+    "limited_space": "false",
     "difficulty": [
       "medium",
       "hard"
@@ -102,6 +107,7 @@
     "body_region": [
       "lower"
     ],
+    "limited_space": "true",
     "difficulty": [
       "easy",
       "medium"
@@ -122,6 +128,7 @@
       "lower",
       "cardio"
     ],
+    "limited_space": "false",
     "difficulty": [
       "medium",
       "hard"
@@ -141,6 +148,7 @@
     "body_region": [
       "lower"
     ],
+    "limited_space": "true",
     "difficulty": [
       "easy",
       "medium"
@@ -161,6 +169,7 @@
       "whole",
       "cardio"
     ],
+    "limited_space": "true",
     "difficulty": [
       "easy",
       "medium",
@@ -179,6 +188,7 @@
     "body_region": [
       "core"
     ],
+    "limited_space": "false",
     "difficulty": [
       "easy",
       "medium",
@@ -201,6 +211,7 @@
       "lower",
       "upper"
     ],
+    "limited_space": "false",
     "difficulty": [
       "easy",
       "medium"
@@ -221,6 +232,7 @@
       "cardio",
       "lower"
     ],
+    "limited_space": "false",
     "difficulty": [
       "medium",
       "hard"
@@ -239,6 +251,7 @@
       "core",
       "lower"
     ],
+    "limited_space": "false",
     "difficulty": [
       "easy",
       "medium"
@@ -246,7 +259,7 @@
     "instructions": [
       "Find an open area in the room with enough room to laydown",
       "Lay on your back and place feet flat on the floor",
-      "Contracting with your abs and bressing down with your feet lift your hips into the air",
+      "Contracting with your abs and pressing down with your feet lift your hips into the air",
       "Control lowering of hips back the the ground",
       "Repeat"
     ]
@@ -260,6 +273,7 @@
       "whole",
       "upper"
     ],
+    "limited_space": "false",
     "difficulty": [
       "easy",
       "medium"
@@ -280,6 +294,7 @@
       "core",
       "whole"
     ],
+    "limited_space": "false",
     "difficulty": [
       "medium",
       "hard"
@@ -299,6 +314,7 @@
       "upper",
       "whole"
     ],
+    "limited_space": "false",
     "difficulty": [
       "medium",
       "hard"
@@ -320,6 +336,7 @@
       "whole",
       "cardio"
     ],
+    "limited_space": "false",
     "difficulty": [
       "hard"
     ],
@@ -341,6 +358,7 @@
       "upper",
       "whole"
     ],
+    "limited_space": "false",
     "difficulty": [
       "medium",
       "hard"
@@ -360,6 +378,7 @@
     "body_region": [
       "lower"
     ],
+    "limited_space": "false",
     "difficulty": [
       "easy",
       "medium"
@@ -381,6 +400,7 @@
       "lower",
       "cardio"
     ],
+    "limited_space": "false",
     "difficulty": [
       "medium",
       "hard"
@@ -391,6 +411,67 @@
       "Take one average step forward",
       "Lower your back knee directly towards the floor, creating a 90 degree angle",
       "From the lowest point, jump from both feet into the air switching which foot is in front",
+      "Repeat"
+    ]
+  },
+  {
+    "title": "Pistol Squat",
+    "image": "squat_pistol",
+    "body_region": [
+      "lower"
+    ],
+    "difficulty": [
+      "hard"
+    ],
+    "limited_space": "true",
+    "instructions": [
+      "Find an open area in the room without any items on the floor around you",
+      "Stand with your feet hip-width apart and your feet facing forward",
+      "Lift one leg off the ground, keep it suspended",
+      "Slowly sit back by bending the hips and knees until the one thigh is parallel to the floor",
+      "Keep your weight on your heel throughout the movement and press through to return to a standing position",
+      "Repeat",
+      "At 45 seconds, switch sides"
+    ]
+  },
+  {
+    "title": "Single Leg Shoulder Bridge",
+    "image": "single_leg_bridge",
+    "body_region": [
+      "core",
+      "lower"
+    ],
+    "limited_space": "false",
+    "difficulty": [
+      "medium"
+    ],
+    "instructions": [
+      "Find an open area in the room with enough room to laydown",
+      "Lay on your back and place feet flat on the floor",
+      "Lift one leg off the ground",
+      "Contracting with your abs and pressing down with your foot lift your hips into the air",
+      "Control lowering of hips back the the ground",
+      "Repeat",
+      "At 45 seconds, switch sides"
+    ]
+  },
+  {
+    "title": "Russian Twist",
+    "image": "russian_twist",
+    "body_region": [
+      "core"
+    ],
+    "limited_space": "false",
+    "difficulty": [
+      "easy",
+      "medium",
+      "hard"
+    ],
+    "instructions": [
+      "Find an open area in the room with enough room to laydown",
+      "Sit on the ground with your knees bent, and feet flat on the floor",
+      "Contract your core and tip back, lifting your feet into the air",
+      "Keeping your knees still, and core tight, twist your torso",
       "Repeat"
     ]
   }

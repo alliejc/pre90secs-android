@@ -22,6 +22,9 @@ public class ExerciseItem {
     @SerializedName("instructions")
     @Expose
     private List<String> instructions = null;
+    @SerializedName("limited_space")
+    @Expose
+    private Boolean limitedSpace;
 
     public String getTitle() {
         return title;
@@ -61,5 +64,13 @@ public class ExerciseItem {
 
     public void setInstructions(List<String> instructions) {
         this.instructions = instructions;
+    }
+
+    public Boolean getSpace() {
+        return limitedSpace;
+    }
+
+    public void setSpace(Boolean limitedSpace) {
+        this.limitedSpace = limitedSpace;
     }
 }

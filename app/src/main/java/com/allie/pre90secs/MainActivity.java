@@ -3,8 +3,6 @@ package com.allie.pre90secs;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.SharedPreferences;
-
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,14 +14,11 @@ import android.view.MenuItem;
 import com.allie.pre90secs.Data.ExerciseItem;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.googlecode.totallylazy.Sequence;
-import com.googlecode.totallylazy.Sequences;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
@@ -40,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
     private Set<String> bodyRegionDefault = new HashSet<String>();
     public static final String PREFS_FILE = "MyPrefsFile";
     private String difficultyDefault = "easy";
-
+    private Boolean limitedSpaceDefault = false;
     private static List<ExerciseItem> mJsonList;
 
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
@@ -115,16 +110,32 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
         return mJsonList;
     }
 
+    private Boolean intersects(List regions, List selectedRegions) {
+        //some logic to check if they exist
+        Set<String> allRegions = new HashSet<String>(regions);
+        Set<String> sRegions = new HashSet<String>(selectedRegions);
+        Set<String> concat = new HashSet<String>();
+
+        concat.addAll(allRegions);
+        concat.addAll(sRegions);
+
+        return concat.size() != 0;
+    }
+
     private List<ExerciseItem> getFilteredList() {
 
-//current body region setting list
+        //current body region setting list
         List <String> list = new ArrayList<String>(myPrefs.getStringSet("body_region", bodyRegionDefault));
 
         //current difficulty setting
         String difficulty = myPrefs.getString("difficulty", difficultyDefault);
 
+        //current space setting
+        Boolean limitedSpace = myPrefs.getBoolean("limited_space", limitedSpaceDefault);
+
         List<ExerciseItem> exerciseItems = sequence(getExerciseItemsFromJson())
-                .filter(item -> item.getBodyRegion().contains(list.get(0)))
+                .filter(item -> item.getSpace().equals(limitedSpace))
+                .filter(item -> this.intersects(item.getBodyRegion(), list))
                 .filter(item -> item.getDifficulty().contains(difficulty))
                 .toList();
 

@@ -42,13 +42,7 @@ public class FetchWorkoutFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mFetchWorkoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                fetchWorkout();
-            }
-        });
+        mFetchWorkoutButton.setOnClickListener(v -> fetchWorkout());
     }
 
     public void fetchWorkout() {

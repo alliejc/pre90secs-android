@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.allie.pre90secs.Data.ExerciseItem;
+import com.allie.pre90secs.model.ExerciseItem;
+import com.allie.pre90secs.fragment.FetchWorkoutFragment;
+import com.allie.pre90secs.fragment.FilterOptionsFragment;
+import com.allie.pre90secs.fragment.WorkoutFragment;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

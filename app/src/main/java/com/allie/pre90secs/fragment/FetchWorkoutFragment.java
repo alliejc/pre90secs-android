@@ -1,4 +1,4 @@
-package com.allie.pre90secs;
+package com.allie.pre90secs.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.allie.pre90secs.R;
 
 public class FetchWorkoutFragment extends Fragment {
 

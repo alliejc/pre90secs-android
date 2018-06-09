@@ -1,4 +1,4 @@
-package com.allie.pre90secs;
+package com.allie.pre90secs.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -17,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.allie.pre90secs.R;
+import com.allie.pre90secs.adapter.InstructionAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,14 +97,14 @@ public class WorkoutFragment extends Fragment {
 
     private void setRecyclerView() {
         Drawable dividerDrawable = ContextCompat.getDrawable(getContext(), R.drawable.recycler_divider);
-        RecyclerView.ItemDecoration dividerItemDecoration = new RecyclerDivider(dividerDrawable);
-        mRecyclerView.addItemDecoration(dividerItemDecoration);
+//        RecyclerView.ItemDecoration dividerItemDecoration = new RecyclerDivider(dividerDrawable);
+//        mRecyclerView.addItemDecoration(dividerItemDecoration);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        CustomRecyclerViewAdapter mAdapter= new CustomRecyclerViewAdapter(mInstructionList, getContext());
+        InstructionAdapter mAdapter= new InstructionAdapter(mInstructionList, getContext());
 
         mRecyclerView.setAdapter(mAdapter);
 

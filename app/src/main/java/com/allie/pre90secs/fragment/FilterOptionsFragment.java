@@ -1,4 +1,4 @@
-package com.allie.pre90secs;
+package com.allie.pre90secs.fragment;
 
 
 import android.app.Fragment;
@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import com.allie.pre90secs.R;
 
 import java.util.ArrayList;
 import java.util.HashSet;

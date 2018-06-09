@@ -4,11 +4,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:actionMenuTextColor">@color/white</item>
-
-        <item name="android:actionButtonStyle">@color/white</item>
-        <item name="android:textColorPrimary">@color/white</item>
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay</item>
+        <item name="android:actionMenuTextColor">@color/subtitle_grey</item>
+        <item name="android:actionButtonStyle">@color/subtitle_grey</item>
+        <item name="android:textColorPrimary">@color/subtitle_grey</item>
         <item name="android:activatedBackgroundIndicator">?android:attr/selectableItemBackground</item>
     </style>
 

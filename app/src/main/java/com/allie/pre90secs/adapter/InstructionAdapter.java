@@ -1,4 +1,4 @@
-package com.allie.pre90secs;
+package com.allie.pre90secs.adapter;
 
 
 import android.content.Context;
@@ -8,14 +8,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.allie.pre90secs.R;
+
 import java.util.List;
 
-public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomViewHolder> {
+public class InstructionAdapter extends RecyclerView.Adapter<InstructionAdapter.CustomViewHolder> {
 
     private List mInstructionList;
     private Context mContext;
 
-    public CustomRecyclerViewAdapter(List list, Context context) {
+    public InstructionAdapter(List list, Context context) {
         this.mInstructionList = list;
         this.mContext = context;
     }
@@ -32,11 +34,11 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
 
     @Override
     public void onBindViewHolder(CustomViewHolder holder, int position) {
-
         String exerciseItem = mInstructionList.get(position).toString();
         TextView instructionText = holder.instructionText;
-
+        TextView instructionCount = holder.instructionCount;
         instructionText.setText(exerciseItem);
+        instructionCount.setText(String.valueOf(holder.getAdapterPosition()+1) + ". ");
     }
 
     @Override
@@ -47,10 +49,11 @@ public class CustomRecyclerViewAdapter extends RecyclerView.Adapter<CustomRecycl
     public class CustomViewHolder extends RecyclerView.ViewHolder {
 
         public TextView instructionText;
+        public TextView instructionCount;
 
         public CustomViewHolder(View itemView) {
             super(itemView);
-
+            instructionCount = (TextView) itemView.findViewById(R.id.instruction_count);
             instructionText = (TextView) itemView.findViewById(R.id.instructionText);
         }
     }

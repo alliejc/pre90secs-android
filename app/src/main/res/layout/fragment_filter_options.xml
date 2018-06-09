@@ -2,8 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimaryDark"
-    tools:context="com.allie.pre90secs.FilterOptionsFragment">
+    tools:context="com.allie.pre90secs.fragment.FilterOptionsFragment">
 
    <LinearLayout
        android:layout_width="match_parent"
@@ -17,12 +16,13 @@
            android:paddingTop="10dp"
            android:text="@string/pref_category_title_difficulty"
            android:textSize="25sp"
+           android:textColor="@color/subtitle_grey"
            android:layout_weight="5"/>
 
        <View
            android:layout_width="match_parent"
            android:layout_height="1sp"
-           android:background="@drawable/recycler_divider" />
+           android:background="@color/subtitle_grey" />
 
   <RadioGroup
       android:layout_width="match_parent"
@@ -34,7 +34,8 @@
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:id="@+id/easyRadioButton"
-         android:text="Easy"
+         android:text="@string/easy"
+         android:textColor="@color/subtitle_grey"
          android:textSize="20sp"
          android:layout_weight="5"
          android:checked="true"/>
@@ -42,14 +43,16 @@
          android:layout_width="match_parent"
          android:layout_height="wrap_content"
          android:id="@+id/mediumRadioButton"
-         android:text="Medium"
+         android:text="@string/medium"
+         android:textColor="@color/subtitle_grey"
          android:textSize="20sp"
          android:layout_weight="5"/>
       <RadioButton
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/hardRadioButton"
-          android:text="Hard"
+          android:text="@string/hard"
+          android:textColor="@color/subtitle_grey"
           android:textSize="20sp"
           android:layout_weight="5" />
   </RadioGroup>
@@ -58,6 +61,7 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:paddingTop="10dp"
+           android:textColor="@color/subtitle_grey"
            android:text="@string/pref_category_title_body_region"
            android:textSize="25sp"
            android:layout_weight="5"/>
@@ -65,19 +69,21 @@
            <View
                android:layout_width="match_parent"
                android:layout_height="1sp"
-               android:background="@drawable/recycler_divider" />
+               android:background="@color/subtitle_grey" />
 
        <CheckBox
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/upperRegionCheckBox"
            android:text="@string/pref_title_upper_body"
+           android:textColor="@color/subtitle_grey"
            android:textSize="20sp"
            android:layout_weight="5"/>
        <CheckBox
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/lowerRegionCheckBox"
+           android:textColor="@color/subtitle_grey"
            android:text="@string/pref_title_lower_body"
            android:textSize="20sp"
            android:layout_weight="5"/>
@@ -85,6 +91,7 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/coreRegionCheckBox"
+           android:textColor="@color/subtitle_grey"
            android:text="@string/pref_title_core"
            android:textSize="20sp"
            android:layout_weight="5"/>
@@ -92,6 +99,7 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/cardioRegionCheckBox"
+           android:textColor="@color/subtitle_grey"
            android:text="@string/pref_title_cardio"
            android:textSize="20sp"
            android:layout_weight="5"/>
@@ -99,6 +107,7 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/wholeBodyRegionCheckBox"
+           android:textColor="@color/subtitle_grey"
            android:text="@string/pref_title_whole_body"
            android:textSize="20sp"
            android:layout_weight="5" />
@@ -106,12 +115,13 @@
        <View
            android:layout_width="match_parent"
            android:layout_height="1sp"
-           android:background="@drawable/recycler_divider" />
+           android:background="@color/subtitle_grey" />
 
        <CheckBox
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/limitedSpaceCheckBox"
+           android:textColor="@color/subtitle_grey"
            android:text="@string/pref_title_limited_space"
            android:textSize="20sp"
            android:padding="5dp"/>
@@ -120,7 +130,7 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:id="@+id/save_button"
-           android:text="SAVE"
+           android:text="@string/save"
            android:textSize="20sp"
            android:padding="5dp"/>
 

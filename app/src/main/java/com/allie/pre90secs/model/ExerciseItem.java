@@ -1,4 +1,4 @@
-package com.allie.pre90secs.Data;
+package com.allie.pre90secs.model;
 
 import java.util.List;
 

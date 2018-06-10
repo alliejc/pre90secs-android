@@ -1,14 +1,10 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
     tools:context="com.allie.pre90secs.fragment.FilterOptionsFragment">
-
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:orientation="vertical"
-       android:weightSum="100">
 
        <TextView
            android:layout_width="match_parent"
@@ -16,19 +12,17 @@
            android:paddingTop="10dp"
            android:text="@string/pref_category_title_difficulty"
            android:textSize="25sp"
-           android:textColor="@color/subtitle_grey"
-           android:layout_weight="5"/>
+           android:textColor="@color/subtitle_grey" />
 
        <View
            android:layout_width="match_parent"
-           android:layout_height="1sp"
+           android:layout_height="1dp"
            android:background="@color/subtitle_grey" />
 
   <RadioGroup
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
       android:id="@+id/difficultyRadioGroup"
-      android:layout_weight="5">
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
 
      <RadioButton
          android:layout_width="match_parent"
@@ -37,7 +31,6 @@
          android:text="@string/easy"
          android:textColor="@color/subtitle_grey"
          android:textSize="20sp"
-         android:layout_weight="5"
          android:checked="true"/>
      <RadioButton
          android:layout_width="match_parent"
@@ -45,30 +38,28 @@
          android:id="@+id/mediumRadioButton"
          android:text="@string/medium"
          android:textColor="@color/subtitle_grey"
-         android:textSize="20sp"
-         android:layout_weight="5"/>
+         android:textSize="20sp" />
       <RadioButton
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:id="@+id/hardRadioButton"
           android:text="@string/hard"
           android:textColor="@color/subtitle_grey"
-          android:textSize="20sp"
-          android:layout_weight="5" />
+          android:textSize="20sp" />
   </RadioGroup>
 
        <TextView
+           android:id="@+id/choose_focus_title"
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:paddingTop="10dp"
            android:textColor="@color/subtitle_grey"
            android:text="@string/pref_category_title_body_region"
-           android:textSize="25sp"
-           android:layout_weight="5"/>
+           android:textSize="25sp" />
 
            <View
                android:layout_width="match_parent"
-               android:layout_height="1sp"
+               android:layout_height="1dp"
                android:background="@color/subtitle_grey" />
 
        <CheckBox
@@ -77,44 +68,39 @@
            android:id="@+id/upperRegionCheckBox"
            android:text="@string/pref_title_upper_body"
            android:textColor="@color/subtitle_grey"
-           android:textSize="20sp"
-           android:layout_weight="5"/>
+           android:textSize="20sp" />
        <CheckBox
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/lowerRegionCheckBox"
            android:textColor="@color/subtitle_grey"
            android:text="@string/pref_title_lower_body"
-           android:textSize="20sp"
-           android:layout_weight="5"/>
+           android:textSize="20sp" />
        <CheckBox
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/coreRegionCheckBox"
            android:textColor="@color/subtitle_grey"
            android:text="@string/pref_title_core"
-           android:textSize="20sp"
-           android:layout_weight="5"/>
+           android:textSize="20sp" />
        <CheckBox
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/cardioRegionCheckBox"
            android:textColor="@color/subtitle_grey"
            android:text="@string/pref_title_cardio"
-           android:textSize="20sp"
-           android:layout_weight="5"/>
+           android:textSize="20sp" />
        <CheckBox
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:id="@+id/wholeBodyRegionCheckBox"
            android:textColor="@color/subtitle_grey"
            android:text="@string/pref_title_whole_body"
-           android:textSize="20sp"
-           android:layout_weight="5" />
+           android:textSize="20sp" />
 
        <View
            android:layout_width="match_parent"
-           android:layout_height="1sp"
+           android:layout_height="1dp"
            android:background="@color/subtitle_grey" />
 
        <CheckBox
@@ -134,5 +120,4 @@
            android:textSize="20sp"
            android:padding="5dp"/>
 
-       </LinearLayout>
-</FrameLayout>
+</LinearLayout>

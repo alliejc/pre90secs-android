@@ -78,7 +78,7 @@ public class WorkoutFragment extends Fragment {
 
         mTitleView = (TextView) v.findViewById(R.id.title);
         mImageView = (ImageView) v.findViewById(R.id.workoutImage);
-        mImageView.setImageResource(R.drawable.knee_high);
+//        mImageView.setImageResource(R.drawable.knee_high);
         startButton = (Button) v.findViewById(R.id.startButton);
         workoutTimer = (Button) v.findViewById(R.id.workoutTimer);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);

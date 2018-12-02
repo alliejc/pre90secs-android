@@ -3,6 +3,8 @@ package com.allie.pre90secs;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,10 +29,16 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 import static com.googlecode.totallylazy.Sequences.sequence;
 
 
 public class MainActivity extends AppCompatActivity implements WorkoutFragment.OnWorkoutWorkoutCompletedListener, FetchWorkoutFragment.OnFetchWorkoutFragmentInteractionListener, FilterOptionsFragment.OnFilterFragmentInteractionListener {
+
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private FragmentManager mFragmentManager;
     private ActionBar mActionBar;
@@ -40,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
     private String difficultyDefault = "easy";
     private Boolean limitedSpaceDefault = false;
     private static List<ExerciseItem> mJsonList;
+    private ExerciseItem selectedItem;
+    private Handler imageHandler = new Handler();
+
 
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     private static final String ROOT = "root";
@@ -54,6 +65,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
             mFragmentManager = getFragmentManager();
             mFragmentManager.beginTransaction().replace(R.id.main_framelayout, FetchWorkoutFragment.newInstance()).addToBackStack(ROOT).commit();
         }
+
         myPrefs = getApplicationContext().getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
         bodyRegionDefault.add("whole");
 
@@ -86,31 +98,44 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
         }
     }
 
-    public List<ExerciseItem> getExerciseItemsFromJson() {
-        if (mJsonList == null) {
-            String json = null;
-            try {
-                InputStream is = MainActivity.this.getAssets().open("ExerciseObject.json");
-                int size = is.available();
-                byte[] buffer = new byte[size];
-                is.read(buffer);
-                is.close();
-                json = new String(buffer, "UTF-8");
-            } catch (IOException ex) {
-                ex.printStackTrace();
-                return null;
+    public List<ExerciseItem> getExerciseItems() {
+        List<ExerciseItem> result = new ArrayList<>();
+        ExerciseService service = new ExerciseService();
+        service.getExerciseItemList().enqueue(new Callback<List<ExerciseItem>>() {
+            @Override
+            public void onResponse(Call<List<ExerciseItem>> call, Response<List<ExerciseItem>> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    result.addAll(response.body());
+                }
             }
-            Gson gson = new Gson();
-            Type type = new TypeToken<List<ExerciseItem>>() {
-            }.getType();
-            mJsonList = gson.fromJson(json, type);
 
-            for (ExerciseItem exerciseItem : mJsonList) {
-                Log.d("List", mJsonList.toString());
-                Log.i("Workout Details", exerciseItem.getTitle() + exerciseItem.getImage());
+            @Override
+            public void onFailure(Call<List<ExerciseItem>> call, Throwable t) {
+                Log.e(TAG, t.getMessage());
             }
-        }
-        return mJsonList;
+        });
+
+        return result;
+    }
+
+    public String getExerciseImage(String imageId) {
+        final String[] result = {""};
+        ExerciseService service = new ExerciseService();
+        service.getExerciseImage(imageId).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    result[0] = response.body();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e(TAG, t.getMessage());
+            }
+        });
+
+        return result[0];
     }
 
     private Boolean intersects(List regions, List selectedRegions) {
@@ -136,7 +161,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
         //current space setting
         Boolean limitedSpace = myPrefs.getBoolean("limited_space", limitedSpaceDefault);
 
-        List<ExerciseItem> exerciseItems = sequence(getExerciseItemsFromJson())
+        List<ExerciseItem> exerciseItems = sequence(getExerciseItems())
                 .filter(item -> item.getSpace().equals(limitedSpace))
                 .filter(item -> this.intersects(item.getBodyRegion(), list))
                 .filter(item -> item.getDifficulty().contains(difficulty))
@@ -146,11 +171,15 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
     }
 
     private ExerciseItem getRandomItem(List<ExerciseItem> exerciseItemList) {
-        int max = exerciseItemList.size();
-        Random r = new Random();
-        int random = r.nextInt(max);
+        if (exerciseItemList != null && !exerciseItemList.isEmpty()) {
+            int max = exerciseItemList.size();
+            Random r = new Random();
+            int random = r.nextInt(max);
 
-        return exerciseItemList.get(random);
+            return exerciseItemList.get(random);
+        }
+            return null;
+
     }
 
     public void addFragmentOnTop(Fragment fragment) {
@@ -184,9 +213,14 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
     @Override
     public void onFetchWorkoutFragmentInteraction() {
+        selectedItem = getRandomItem(getFilteredList());
 
-        ExerciseItem exerciseItem = getRandomItem(getFilteredList());
-        addFragmentOnTop(WorkoutFragment.newInstance(exerciseItem.getTitle(), exerciseItem.getImage(), exerciseItem.getInstructions()));
+        if (selectedItem != null) {
+//            selectedItem.setImage(getExerciseImage(selectedItem.getImage()));
+
+            Runnable runnable = () -> addFragmentOnTop(WorkoutFragment.newInstance(selectedItem.getTitle(), selectedItem.getImage(), selectedItem.getInstructions()));
+            imageHandler.postDelayed(runnable, 1000);
+        }
     }
 
     @Override

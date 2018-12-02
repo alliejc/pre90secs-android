@@ -13,9 +13,9 @@ public class ExerciseService {
     private static ExerciseService exerciseService;
     private final ExerciseInterface exerciseInterface;
 
-    public ExerciseService() {
+    public ExerciseService(String baseUrl) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://raw.githubusercontent.com/alliejc/alliejc.github.io/master/")
+                .baseUrl(baseUrl)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

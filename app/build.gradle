@@ -54,6 +54,7 @@ dependencies {
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation group: 'com.googlecode.totallylazy', name: 'totallylazy', version: '1.86'
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.squareup.picasso:picasso:2.71828'
 }
 repositories {
     mavenCentral()

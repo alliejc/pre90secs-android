@@ -2,15 +2,18 @@ package com.allie.pre90secs.fragment;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +21,31 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.allie.pre90secs.ExerciseService;
 import com.allie.pre90secs.R;
 import com.allie.pre90secs.adapter.InstructionAdapter;
+import com.allie.pre90secs.model.ExerciseItem;
+import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Random;
+import java.util.Set;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static android.content.Context.MODE_PRIVATE;
+import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class WorkoutFragment extends Fragment {
+    private static final String TAG = WorkoutFragment.class.getSimpleName();
+
+    private final String BASE_URL_EXERCISE_ITEMS = "https://raw.githubusercontent.com/alliejc/alliejc.github.io/master/";
+    private final String BASE_URL_EXERCISE_IMAGE = "https://alliejc.github.io/";
 
     private ImageView mImageView;
     private TextView mTitleView;
@@ -33,16 +54,14 @@ public class WorkoutFragment extends Fragment {
     private Handler mTimerHandler = new Handler();
     private int mTotalTime = 0;
     private RecyclerView mRecyclerView;
-    private List mInstructionList;
     private Boolean mBeepPlayed = false;
 
-    private String titleParam;
-    private String imageParam;
-    private ArrayList instructionParam;
-
-    private static final String ARG_TITLE = "title";
-    private static final String ARG_IMAGE = "image";
-    private static final String ARG_INSTRUCTIONS = "instructions";
+    private ExerciseItem selectedItem;
+    private SharedPreferences myPrefs;
+    private Set<String> bodyRegionDefault = new HashSet<String>();
+    public static final String PREFS_FILE = "MyPrefsFile";
+    private String difficultyDefault = "easy";
+    private Boolean limitedSpaceDefault = false;
 
     private OnWorkoutWorkoutCompletedListener mListener;
 
@@ -50,25 +69,16 @@ public class WorkoutFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static WorkoutFragment newInstance(String title, String image, List instructions) {
-        WorkoutFragment fragment = new WorkoutFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_TITLE, title);
-        args.putString(ARG_IMAGE, image);
-        args.putStringArrayList(ARG_INSTRUCTIONS, new ArrayList<String>(instructions));
-        fragment.setArguments(args);
-        return fragment;
+    public static WorkoutFragment newInstance() {
+        return new WorkoutFragment();
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            titleParam = getArguments().getString(ARG_TITLE);
-            imageParam = getArguments().getString(ARG_IMAGE);
-            instructionParam = getArguments().getStringArrayList(ARG_INSTRUCTIONS);
-        }
+        myPrefs = this.getActivity().getApplicationContext().getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
+        bodyRegionDefault.add("whole");
+        getExerciseItems();
     }
 
     @Override
@@ -78,7 +88,6 @@ public class WorkoutFragment extends Fragment {
 
         mTitleView = (TextView) v.findViewById(R.id.title);
         mImageView = (ImageView) v.findViewById(R.id.workoutImage);
-//        mImageView.setImageResource(R.drawable.knee_high);
         startButton = (Button) v.findViewById(R.id.startButton);
         workoutTimer = (Button) v.findViewById(R.id.workoutTimer);
         mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
@@ -89,8 +98,6 @@ public class WorkoutFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        loadUi();
 
         startButton.setOnClickListener(v -> startTimer());
     }
@@ -104,21 +111,109 @@ public class WorkoutFragment extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-        InstructionAdapter mAdapter= new InstructionAdapter(mInstructionList, getContext());
+        InstructionAdapter mAdapter= new InstructionAdapter(selectedItem.getInstructions(), getContext());
 
         mRecyclerView.setAdapter(mAdapter);
 
     }
 
     private void loadUi() {
-        mTitleView.setText(titleParam);
-        mInstructionList = instructionParam;
-        Resources resources = getContext().getResources();
-        int resourceId = resources.getIdentifier(imageParam, "drawable", getContext().getPackageName());
-        Drawable drawable = getContext().getDrawable(resourceId);
-        mImageView.setImageDrawable(drawable);
+        if (selectedItem.getTitle() != null) {
+            mTitleView.setText(selectedItem.getTitle());
+        }
+
+        if (selectedItem.getImage() != null && !selectedItem.getImage().isEmpty()) {
+            Picasso.get().load(Uri.parse(selectedItem.getImage())).into(mImageView);
+        }
 
         setRecyclerView();
+    }
+
+    public void getExerciseImage(String imageId) {
+        ExerciseService service = new ExerciseService(BASE_URL_EXERCISE_IMAGE);
+        service.getExerciseImage(imageId).enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    Picasso.get().load(Uri.parse(response.body())).into(mImageView);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+                Log.e(TAG, t.getMessage());
+            }
+        });
+        }
+
+    public void getExerciseItems() {
+        ExerciseService service = new ExerciseService(BASE_URL_EXERCISE_ITEMS);
+        service.getExerciseItemList().enqueue(new Callback<List<ExerciseItem>>() {
+            @Override
+            public void onResponse(Call<List<ExerciseItem>> call, Response<List<ExerciseItem>> response) {
+                if (response.isSuccessful() && response.body() != null){
+                    selectedItem = getRandomItem(getFilteredList(response.body()));
+                    if (selectedItem != null) {
+                        if (selectedItem.getTitle() != null) {
+                            mTitleView.setText(selectedItem.getTitle());
+                        }
+
+                        setRecyclerView();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ExerciseItem>> call, Throwable t) {
+                Log.e(TAG, t.getMessage());
+            }
+        });
+    }
+
+    private List<ExerciseItem> getFilteredList(List<ExerciseItem> items) {
+
+        //current body region setting list
+        List <String> list = new ArrayList<String>(myPrefs.getStringSet("body_region", bodyRegionDefault));
+
+        //current difficulty setting
+        String difficulty = myPrefs.getString("difficulty", difficultyDefault);
+
+        //current space setting
+        Boolean limitedSpace = myPrefs.getBoolean("limited_space", limitedSpaceDefault);
+
+        List<ExerciseItem> exerciseItems = sequence(items)
+                .filter(item -> item.getSpace().equals(limitedSpace))
+                .filter(item -> this.intersects(item.getBodyRegion(), list))
+                .filter(item -> item.getDifficulty().contains(difficulty))
+                .toList();
+
+        return exerciseItems;
+    }
+
+    private ExerciseItem getRandomItem(List<ExerciseItem> exerciseItemList) {
+        if (exerciseItemList != null && !exerciseItemList.isEmpty()) {
+            int max = exerciseItemList.size();
+            Random r = new Random();
+            int random = r.nextInt(max);
+
+            ExerciseItem item = exerciseItemList.get(random);
+            getExerciseImage(item.getImage());
+
+            return item;
+        }
+        return null;
+    }
+
+    private Boolean intersects(List regions, List selectedRegions) {
+        //some logic to check if they exist
+        Set<String> allRegions = new HashSet<String>(regions);
+        Set<String> sRegions = new HashSet<String>(selectedRegions);
+        Set<String> concat = new HashSet<String>();
+
+        concat.addAll(allRegions);
+        concat.addAll(sRegions);
+
+        return concat.size() != 0;
     }
 
     private void updateTimerUi() {

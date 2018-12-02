@@ -1,16 +1,13 @@
 package com.allie.pre90secs.fragment;
 
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -21,13 +18,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.allie.pre90secs.ExerciseService;
+import com.allie.pre90secs.service.ExerciseService;
 import com.allie.pre90secs.R;
 import com.allie.pre90secs.adapter.InstructionAdapter;
 import com.allie.pre90secs.model.ExerciseItem;
 import com.squareup.picasso.Picasso;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -45,7 +41,7 @@ public class WorkoutFragment extends Fragment {
     private static final String TAG = WorkoutFragment.class.getSimpleName();
 
     private final String BASE_URL_EXERCISE_ITEMS = "https://raw.githubusercontent.com/alliejc/alliejc.github.io/master/";
-    private final String BASE_URL_EXERCISE_IMAGE = "https://alliejc.github.io/";
+    private final String BASE_URL_EXERCISE_IMAGE = "https://alliejc.github.io/img/";
 
     private ImageView mImageView;
     private TextView mTitleView;
@@ -103,10 +99,6 @@ public class WorkoutFragment extends Fragment {
     }
 
     private void setRecyclerView() {
-        Drawable dividerDrawable = ContextCompat.getDrawable(getContext(), R.drawable.recycler_divider);
-//        RecyclerView.ItemDecoration dividerItemDecoration = new RecyclerDivider(dividerDrawable);
-//        mRecyclerView.addItemDecoration(dividerItemDecoration);
-
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setHasFixedSize(true);
@@ -116,35 +108,6 @@ public class WorkoutFragment extends Fragment {
         mRecyclerView.setAdapter(mAdapter);
 
     }
-
-    private void loadUi() {
-        if (selectedItem.getTitle() != null) {
-            mTitleView.setText(selectedItem.getTitle());
-        }
-
-        if (selectedItem.getImage() != null && !selectedItem.getImage().isEmpty()) {
-            Picasso.get().load(Uri.parse(selectedItem.getImage())).into(mImageView);
-        }
-
-        setRecyclerView();
-    }
-
-    public void getExerciseImage(String imageId) {
-        ExerciseService service = new ExerciseService(BASE_URL_EXERCISE_IMAGE);
-        service.getExerciseImage(imageId).enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if (response.isSuccessful() && response.body() != null){
-                    Picasso.get().load(Uri.parse(response.body())).into(mImageView);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Log.e(TAG, t.getMessage());
-            }
-        });
-        }
 
     public void getExerciseItems() {
         ExerciseService service = new ExerciseService(BASE_URL_EXERCISE_ITEMS);
@@ -197,7 +160,7 @@ public class WorkoutFragment extends Fragment {
             int random = r.nextInt(max);
 
             ExerciseItem item = exerciseItemList.get(random);
-            getExerciseImage(item.getImage());
+            Picasso.get().load(Uri.parse(BASE_URL_EXERCISE_IMAGE + item.getImage())).into(mImageView);
 
             return item;
         }

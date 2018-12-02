@@ -1,4 +1,4 @@
-package com.allie.pre90secs;
+package com.allie.pre90secs.service;
 
 import com.allie.pre90secs.model.ExerciseItem;
 

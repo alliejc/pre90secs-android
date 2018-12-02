@@ -1,31 +1,28 @@
 package com.allie.pre90secs;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
-import com.allie.pre90secs.model.ExerciseItem;
+import com.allie.pre90secs.fragment.AddCustomWorkoutFragment;
 import com.allie.pre90secs.fragment.FetchWorkoutFragment;
 import com.allie.pre90secs.fragment.FilterOptionsFragment;
 import com.allie.pre90secs.fragment.WorkoutFragment;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements WorkoutFragment.OnWorkoutWorkoutCompletedListener, FetchWorkoutFragment.OnFetchWorkoutFragmentInteractionListener, FilterOptionsFragment.OnFilterFragmentInteractionListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
-    private FragmentManager mFragmentManager;
-    private ActionBar mActionBar;
-    private static List<ExerciseItem> mJsonList;
-
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     private static final String ROOT = "root";
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,16 +31,24 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
         if (savedInstanceState == null) {
             setContentView(R.layout.activity_main);
 
-            mFragmentManager = getFragmentManager();
-            mFragmentManager.beginTransaction().replace(R.id.main_framelayout, FetchWorkoutFragment.newInstance()).addToBackStack(ROOT).commit();
+            android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.main_framelayout, FetchWorkoutFragment.newInstance()).addToBackStack(ROOT).commit();
         }
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(myToolbar);
-        mActionBar = getSupportActionBar();
-        mActionBar.setTitle(R.string.app_name);
-        mActionBar.setDisplayShowTitleEnabled(true);
-        mActionBar.setHomeButtonEnabled(true);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setTitle(R.string.app_name);
+        actionbar.setDisplayShowTitleEnabled(true);
+        actionbar.setHomeButtonEnabled(true);
+
+        fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFragmentOnTop(new AddCustomWorkoutFragment());
+            }
+        });
     }
 
     @Override
@@ -68,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
     }
 
     public void addFragmentOnTop(Fragment fragment) {
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
         fragmentManager
@@ -80,15 +85,23 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
 
     @Override
     public void onBackPressed() {
-        if (mFragmentManager.getBackStackEntryCount() >= 1) {
-            mFragmentManager.popBackStackImmediate();
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 
-        } else if (mFragmentManager.getBackStackEntryCount() < 1) {
+        if (fragmentManager.getBackStackEntryCount() >= 1) {
+            fragmentManager.popBackStackImmediate();
+
+        } else if (fragmentManager.getBackStackEntryCount() < 1) {
             moveTaskToBack(true);
 
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        fab.setVisibility(View.GONE);
     }
 
     @Override

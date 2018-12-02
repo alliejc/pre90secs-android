@@ -14,10 +14,10 @@ import java.util.List;
 
 public class InstructionAdapter extends RecyclerView.Adapter<InstructionAdapter.CustomViewHolder> {
 
-    private List mInstructionList;
+    private List<String> mInstructionList;
     private Context mContext;
 
-    public InstructionAdapter(List list, Context context) {
+    public InstructionAdapter(List<String> list, Context context) {
         this.mInstructionList = list;
         this.mContext = context;
     }
@@ -26,7 +26,7 @@ public class InstructionAdapter extends RecyclerView.Adapter<InstructionAdapter.
     public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         mContext = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View v = inflater.inflate(R.layout.recyclerview_item, parent, false);
+        View v = inflater.inflate(R.layout.exercise_instruction_item, parent, false);
         CustomViewHolder holder = new CustomViewHolder(v);
 
         return holder;
@@ -56,6 +56,11 @@ public class InstructionAdapter extends RecyclerView.Adapter<InstructionAdapter.
             instructionCount = (TextView) itemView.findViewById(R.id.instruction_count);
             instructionText = (TextView) itemView.findViewById(R.id.instructionText);
         }
+    }
+
+    public void addInstructionItem(String item) {
+        mInstructionList.add(item);
+        notifyDataSetChanged();
     }
 }
 

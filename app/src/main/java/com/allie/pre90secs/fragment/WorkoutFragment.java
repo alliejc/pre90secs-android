@@ -233,7 +233,7 @@ public class WorkoutFragment extends Fragment {
         workoutTimer.setText(String.format("%2d:%02d", mMinutes, mSeconds, 0));
     }
 
-    Runnable timerRunnable = () -> updateTimerUi();
+    Runnable timerRunnable = this::updateTimerUi;
 
     private void playBeep() {
 
@@ -249,6 +249,7 @@ public class WorkoutFragment extends Fragment {
 
     private void resetTimerHandler() {
         mTimerHandler.removeCallbacks(timerRunnable);
+        mTimerHandler = null;
     }
 
     private void startTimer() {

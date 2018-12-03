@@ -77,14 +77,12 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
     public void onBackPressed() {
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
 
-        if (fragmentManager.getBackStackEntryCount() >= 1) {
+        if (fragmentManager.getBackStackEntryCount() > 1) {
             fragmentManager.popBackStackImmediate();
 
-        } else if (fragmentManager.getBackStackEntryCount() < 1) {
+        } else if (fragmentManager.getBackStackEntryCount() <= 1) {
             moveTaskToBack(true);
 
-        } else {
-            super.onBackPressed();
         }
     }
 

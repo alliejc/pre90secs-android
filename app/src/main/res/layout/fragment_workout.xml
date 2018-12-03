@@ -40,6 +40,11 @@
           android:background="@color/background_grey">
       </android.support.v7.widget.RecyclerView>
 
+      <View
+          android:layout_width="match_parent"
+          android:layout_height="1dp"
+          android:background="@drawable/shadow"
+          />
       <Button
           android:id="@+id/startButton"
           android:layout_width="match_parent"
@@ -50,7 +55,7 @@
           android:textSize="40sp"
           android:textColor="@color/white"
           android:visibility="visible"
-          android:elevation="2dp"
+          android:elevation="5dp"
           android:text="@string/start_workout">
       </Button>
       <Button
@@ -63,7 +68,7 @@
           android:textSize="40sp"
           android:textColor="@color/white"
           android:visibility="gone"
-          android:elevation="2dp"
+          android:elevation="5dp"
           android:text="@string/timer">
       </Button>
   </LinearLayout>

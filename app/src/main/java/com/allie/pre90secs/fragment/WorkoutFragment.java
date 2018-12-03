@@ -18,12 +18,18 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.allie.pre90secs.MainActivity;
 import com.allie.pre90secs.service.ExerciseService;
 import com.allie.pre90secs.R;
 import com.allie.pre90secs.adapter.InstructionAdapter;
 import com.allie.pre90secs.model.ExerciseItem;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -39,6 +45,8 @@ import static com.googlecode.totallylazy.Sequences.sequence;
 
 public class WorkoutFragment extends Fragment {
     private static final String TAG = WorkoutFragment.class.getSimpleName();
+    private static final String MY_WORKOUTS_PREFS_FILE = "MyWorkoutsPrefs";
+    public static final String PREFS_FILE = "MyPrefsFile";
 
     private final String BASE_URL_EXERCISE_ITEMS = "https://raw.githubusercontent.com/alliejc/alliejc.github.io/master/";
     private final String BASE_URL_EXERCISE_IMAGE = "https://alliejc.github.io/img/";
@@ -55,9 +63,9 @@ public class WorkoutFragment extends Fragment {
     private ExerciseItem selectedItem;
     private SharedPreferences myPrefs;
     private Set<String> bodyRegionDefault = new HashSet<String>();
-    public static final String PREFS_FILE = "MyPrefsFile";
     private String difficultyDefault = "easy";
     private Boolean limitedSpaceDefault = false;
+    private static List<ExerciseItem> exerciseList = new ArrayList<>();
 
     private OnWorkoutWorkoutCompletedListener mListener;
 
@@ -74,6 +82,7 @@ public class WorkoutFragment extends Fragment {
         super.onCreate(savedInstanceState);
         myPrefs = this.getActivity().getApplicationContext().getSharedPreferences(PREFS_FILE, MODE_PRIVATE);
         bodyRegionDefault.add("whole");
+        exerciseList = getExerciseItemsFromJson();
         getExerciseItems();
     }
 
@@ -82,11 +91,11 @@ public class WorkoutFragment extends Fragment {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_workout, container, false);
 
-        mTitleView = (TextView) v.findViewById(R.id.title);
-        mImageView = (ImageView) v.findViewById(R.id.workoutImage);
-        startButton = (Button) v.findViewById(R.id.startButton);
-        workoutTimer = (Button) v.findViewById(R.id.workoutTimer);
-        mRecyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
+        mTitleView = v.findViewById(R.id.title);
+        mImageView = v.findViewById(R.id.workoutImage);
+        startButton = v.findViewById(R.id.startButton);
+        workoutTimer = v.findViewById(R.id.workoutTimer);
+        mRecyclerView = v.findViewById(R.id.recycler_view);
 
         return v;
     }
@@ -106,7 +115,33 @@ public class WorkoutFragment extends Fragment {
         InstructionAdapter mAdapter= new InstructionAdapter(selectedItem.getInstructions(), getContext());
 
         mRecyclerView.setAdapter(mAdapter);
+    }
 
+    public List<ExerciseItem> getExerciseItemsFromJson() {
+        if (exerciseList == null) {
+            String json = null;
+            try {
+                InputStream is = this.getActivity().getAssets().open(MY_WORKOUTS_PREFS_FILE);
+                int size = is.available();
+                byte[] buffer = new byte[size];
+                is.read(buffer);
+                is.close();
+                json = new String(buffer, "UTF-8");
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                return null;
+            }
+            Gson gson = new Gson();
+            Type type = new TypeToken<List<ExerciseItem>>() {
+            }.getType();
+            exerciseList = gson.fromJson(json, type);
+
+            for (ExerciseItem exerciseItem : exerciseList) {
+                Log.d("List", exerciseList.toString());
+                Log.i("Workout Details", exerciseItem.getTitle() + exerciseItem.getImage());
+            }
+        }
+        return exerciseList;
     }
 
     public void getExerciseItems() {
@@ -115,7 +150,8 @@ public class WorkoutFragment extends Fragment {
             @Override
             public void onResponse(Call<List<ExerciseItem>> call, Response<List<ExerciseItem>> response) {
                 if (response.isSuccessful() && response.body() != null){
-                    selectedItem = getRandomItem(getFilteredList(response.body()));
+                    exerciseList.addAll(response.body());
+                    selectedItem = getRandomItem(getFilteredList(exerciseList));
                     if (selectedItem != null) {
                         if (selectedItem.getTitle() != null) {
                             mTitleView.setText(selectedItem.getTitle());

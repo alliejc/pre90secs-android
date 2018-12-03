@@ -1,6 +1,5 @@
 package com.allie.pre90secs;
 
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
@@ -9,20 +8,19 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.allie.pre90secs.fragment.AddCustomWorkoutFragment;
 import com.allie.pre90secs.fragment.FetchWorkoutFragment;
 import com.allie.pre90secs.fragment.FilterOptionsFragment;
 import com.allie.pre90secs.fragment.WorkoutFragment;
 
-public class MainActivity extends AppCompatActivity implements WorkoutFragment.OnWorkoutWorkoutCompletedListener, FetchWorkoutFragment.OnFetchWorkoutFragmentInteractionListener, FilterOptionsFragment.OnFilterFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity implements WorkoutFragment.OnWorkoutWorkoutCompletedListener, FetchWorkoutFragment.OnFetchWorkoutFragmentInteractionListener,
+        FilterOptionsFragment.OnFilterFragmentInteractionListener, FetchWorkoutFragment.OnAddWorkoutInteractionListener {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
     private static final String ROOT = "root";
-    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,14 +39,6 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
         actionbar.setTitle(R.string.app_name);
         actionbar.setDisplayShowTitleEnabled(true);
         actionbar.setHomeButtonEnabled(true);
-
-        fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                addFragmentOnTop(new AddCustomWorkoutFragment());
-            }
-        });
     }
 
     @Override
@@ -98,11 +88,6 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        fab.setVisibility(View.GONE);
-    }
 
     @Override
     public void onWorkoutCompleted() {
@@ -118,4 +103,8 @@ public class MainActivity extends AppCompatActivity implements WorkoutFragment.O
     public void onFilterFragmentInteraction() {
     }
 
+    @Override
+    public void onAddWorkoutInteraction() {
+        addFragmentOnTop(new AddCustomWorkoutFragment());
+    }
 }

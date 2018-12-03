@@ -62,6 +62,10 @@ public class InstructionAdapter extends RecyclerView.Adapter<InstructionAdapter.
         mInstructionList.add(item);
         notifyDataSetChanged();
     }
+
+    public List<String> getInstructionList() {
+        return mInstructionList;
+    }
 }
 
 
